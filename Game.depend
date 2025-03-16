@@ -1,0 +1,87 @@
+# depslib dependency file v1.0
+1742136700 source:d:\ltnc\game\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	"graphics.h"
+	"defs.h"
+	"baseObject.h"
+	"gameMap.h"
+	"playerObject.h"
+	"BulletObject.h"
+	"BulletMonster.h"
+	"HandelInPut.h"
+
+1742134501 d:\ltnc\game\graphics.h
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+
+1742134501 d:\ltnc\game\defs.h
+
+1742134501 d:\ltnc\game\baseobject.h
+	"defs.h"
+	<SDL.h>
+	<SDL_image.h>
+
+1742134896 d:\ltnc\game\gamemap.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	"baseObject.h"
+	"defs.h"
+
+1742134501 d:\ltnc\game\playerobject.h
+	<iostream>
+	<stdio.h>
+	<cstdio>
+	<vector>
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	"graphics.h"
+	"gameMap.h"
+	"BulletObject.h"
+	"baseObject.h"
+	"HandelInPut.h"
+
+1742136671 d:\ltnc\game\bulletobject.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	"defs.h"
+	"baseObject.h"
+	"graphics.h"
+	"playerObject.h"
+	"HandelInPut.h"
+	"MonsterObject.h"
+
+1742134501 d:\ltnc\game\handelinput.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1742134863 d:\ltnc\game\monsterobject.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	"defs.h"
+	"graphics.h"
+	"BulletMonster.h"
+	"playerObject.h"
+
+1742136671 d:\ltnc\game\bulletmonster.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	"defs.h"
+	"graphics.h"
+	"gameMap.h"
+	"MonsterObject.h"
+	"playerObject.h"
+	"baseObject.h"
+
