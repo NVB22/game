@@ -26,6 +26,9 @@ struct Sprite : public Base
     int tile_x1 ,tile_y1;
     int tile_x2 , tile_y2;
 
+    int health_player = 22;
+    bool bullet_hit = false;
+
     int on_ground = 0;
     int speed = INITIAL_SPEED;
 

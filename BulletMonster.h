@@ -47,7 +47,7 @@ struct BulletMonster: public Base
     void set_bullet_dir (const int x) {bullet_dir = x;}
     void set_target (bool x) {target = x ;}
 
-    void Move_Check(Map &map_ , const int &x_limit , const int &y_limit , const int &x_player , const int &y_player )
+    void Move_Check(Map &map_ , const int &x_limit , const int &y_limit , const int &x_player , const int &y_player , int &health_player )
     {
         int tile_x1 , tile_y1;
         int tile_x2 , tile_y2;
@@ -126,7 +126,7 @@ struct BulletMonster: public Base
 
                     if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
                     {
-                         if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
+                         if(rect.x > x_start + 320 || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
                         {
                             bullet_out = true;
                             set_target(false);
@@ -138,6 +138,7 @@ struct BulletMonster: public Base
                 else if(x_target - rect.x < 0)
                 {
                     rect.x -= (x_val + INITIAL_SPEED);
+
                     if(rect.x < x_target) rect.x = x_target;
                     rect.y = (1.0*(rect.x - x_start)/u1)*u2 + y_start;
 
@@ -148,7 +149,7 @@ struct BulletMonster: public Base
 
                     if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
                     {
-                        if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
+                        if(rect.x < x_start - 320 || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
                         {
                             bullet_out = true;
                             set_target(false);
@@ -157,7 +158,7 @@ struct BulletMonster: public Base
 
                 }
             }
-            if(rect.x <0 || rect.x > x_limit - width_monster2 || rect.x == x_target )
+            if(rect.x <0 || rect.x > x_limit - width_monster2 || rect.x == x_target  )
             {
                 bullet_out = true;
                 set_target(false);
@@ -167,7 +168,7 @@ struct BulletMonster: public Base
 
         //CHECK TO PLAYER
 
-        /*int x1 = x_player;
+        int x1 = x_player;
         int x2 = x_player + width_player;
         int y1 = y_player;
         int y2 = y_player + height_player;
@@ -178,7 +179,8 @@ struct BulletMonster: public Base
                 set_target(false);
             }
             bullet_out = true;
-        }*/
+            health_player--;
+        }
 
 
     }

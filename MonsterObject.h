@@ -222,6 +222,12 @@ struct MonsterObject : public Base
 
         if(x_pos < 0) x_pos = 0;
         else if(x_pos + width_monster > map_.max_x) x_pos = map_.max_x - width_monster;
+
+        if(y_pos > map_.max_y)
+        {
+            texture = NULL;
+            free();
+        }
     }
 
 
@@ -256,7 +262,7 @@ struct MonsterObject : public Base
         }
     }
 
-    void MakeBullet(Map &map_ , Graphics_ &graphic , const int &x_limit , const int &y_limit , const int &x_player , const int &y_player)
+    void MakeBullet(Map &map_ , Graphics_ &graphic , const int &x_limit , const int &y_limit , const int &x_player , const int &y_player , int &health_player)
     {
         for(int i=0 ; i < p_bullet_list.size() ; i++)
         {
@@ -273,9 +279,12 @@ struct MonsterObject : public Base
                 if(p_bullet->bullet_out == false)
                 {
 
-                    //if(Monster_status == MONSTER_MOVE_LEFT ) p_bullet->set_bullet_dir(DIR_LEFT);
-                    //else if(Monster_status == MONSTER_MOVE_RIGHT) p_bullet->set_bullet_dir(DIR_RIGHT);
-                    p_bullet->Move_Check(map_ , x_limit , y_limit , x_player , y_player);
+                    if(type_monster == MONSTER_MOVE)
+                    {
+                        if(Monster_status == MONSTER_MOVE_LEFT ) p_bullet->set_bullet_dir(DIR_LEFT);
+                        else if(Monster_status == MONSTER_MOVE_RIGHT) p_bullet->set_bullet_dir(DIR_RIGHT);
+                    }
+                    p_bullet->Move_Check(map_ , x_limit , y_limit , x_player , y_player, health_player);
                     p_bullet->Render(graphic.renderer);
                 }
                 else

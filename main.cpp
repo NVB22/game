@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -135,12 +134,21 @@ int main(int argc, char *argv[])
                 p_monster->ImpMoveType(graphic);
                 p_monster->DoMonster(game_map_.game_map );
 
-                p_monster->MakeBullet(game_map_.game_map ,graphic , SCREEN_WIDTH , SCREEN_HEIGHT , player.x_player , player.y_player);
+                p_monster->MakeBullet(game_map_.game_map ,graphic , SCREEN_WIDTH , SCREEN_HEIGHT , player.x_player , player.y_player ,player.health_player );
                 p_monster->show(game_map_.game_map , graphic);
 
             }
         }
 
+        if(player.health_player <= 0)
+        {
+            player.free();
+            quit=true;
+        }
+        else if (player.health_player < 3)
+        {
+            player.SetRect(0 , 0);
+        }
 
         SDL_RenderPresent(graphic.renderer);
 

@@ -51,8 +51,8 @@ struct Bullet : public Base
 
             tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
             tile_y1 = rect.y / TILE_SIZE;
-            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 - 1) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 - 1 ) / TILE_SIZE;
 
             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
             {
@@ -69,8 +69,8 @@ struct Bullet : public Base
 
             tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
             tile_y1 = rect.y / TILE_SIZE;
-            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 - 1) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 - 1 ) / TILE_SIZE;
 
              if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
              {
@@ -88,8 +88,8 @@ struct Bullet : public Base
 
             tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
             tile_y1 = rect.y / TILE_SIZE;
-            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 - 1) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 - 1) / TILE_SIZE;
 
             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
             {
@@ -108,8 +108,8 @@ struct Bullet : public Base
 
             tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
             tile_y1 = rect.y / TILE_SIZE;
-            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 - 1) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 - 1 ) / TILE_SIZE;
 
             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
             {
@@ -127,8 +127,8 @@ struct Bullet : public Base
 
             tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
             tile_y1 = rect.y / TILE_SIZE;
-            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 - 1) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 - 1) / TILE_SIZE;
 
             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
            {
@@ -144,8 +144,8 @@ struct Bullet : public Base
 
             tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
             tile_y1 = rect.y / TILE_SIZE;
-            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 - 1) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 - 1) / TILE_SIZE;
 
              if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
              {
@@ -172,6 +172,7 @@ struct Bullet : public Base
                 {
                     SDL_DestroyTexture(p_monster->texture);
                     p_monster->texture = NULL;
+                    p_monster->x_monster=0;
                     p_monster->free();
 
                     p_monster_list.erase(p_monster_list.begin() + i);
