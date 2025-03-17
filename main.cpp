@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <vector>
+#include <string>
 #include "graphics.h"
 #include "defs.h"
 #include "baseObject.h"
@@ -10,6 +11,8 @@
 #include "BulletObject.h"
 #include "BulletMonster.h"
 #include "HandelInPut.h"
+#include "PlayerIndex.h"
+#include <SDL_ttf.h>
 
 
 using namespace std;
@@ -72,6 +75,18 @@ int main(int argc, char *argv[])
     Graphics_ graphic;
     graphic.initSDL();
 
+    TTF_Font* font = graphic.loadFont("assets/dlxfont_.ttf" , 15);
+    SDL_Color color_White = {255 , 255 , 255} ,
+              color_Red = {255 , 0 , 0},
+              color_Black = {0 , 0 , 0};
+
+    SDL_Texture* TimeText;
+    SDL_Texture* Mark;
+    SDL_Texture* Money;
+
+    PlayerIndex player_index;
+    player_index.InIt(graphic);
+
     /*Base background;
     bool res=background.LoadImg("img//background.png",graphic.renderer);
 
@@ -126,6 +141,8 @@ int main(int argc, char *argv[])
 
         game_map_.DrawMap(graphic.renderer);
 
+        player_index.Show(graphic);
+
         for(int i=0 ; i < p_Monster_list.size() ; i++)
         {
             MonsterObject* p_monster = p_Monster_list.at(i);
@@ -134,25 +151,56 @@ int main(int argc, char *argv[])
                 p_monster->ImpMoveType(graphic);
                 p_monster->DoMonster(game_map_.game_map );
 
-                p_monster->MakeBullet(game_map_.game_map ,graphic , SCREEN_WIDTH , SCREEN_HEIGHT , player.x_player , player.y_player ,player.health_player );
+                p_monster->MakeBullet(game_map_.game_map ,graphic , SCREEN_WIDTH , SCREEN_HEIGHT , player.x_player , player.y_player ,player_index.health );
                 p_monster->show(game_map_.game_map , graphic);
 
             }
         }
 
-        if(player.health_player <= 0)
+        if(player_index.health <= 0)
         {
             player.free();
             quit=true;
         }
-        else if (player.health_player < 3)
+        else
         {
-            player.SetRect(0 , 0);
+            if(player_index.health > 0 && player_index.size_pos_list > player_index.health )
+            {
+                player_index.Decrease();
+            }
+            else if(player_index.health > 0 && player_index.size_pos_list < player_index.health)
+            {
+                player_index.InitCrease();
+            }
         }
 
+        // SHOW GAME_TIME
+        string time ="Time: ";
+        Uint32 time_val = SDL_GetTicks() / 1000;
+        Uint32 time_pos = 300 - time_val;
+        if(time_pos <= 0)
+        {
+            quit=true;
+            player.free();
+        }
+        else
+        {
+            string s = time + to_string(time_pos);
+            TimeText = graphic.renderText( s , font , color_White);
+            graphic.renderTexture(TimeText , SCREEN_WIDTH - 200 , 15);
+        }
+        //SHOW MARK;
+        string mark_ = "Mark: ";
+        string mark = mark_ + to_string(MARK);
+        Mark = graphic.renderText( mark , font , color_White);
+        graphic.renderTexture(Mark ,SCREEN_WIDTH*0.5 + 50 , 15 );
+        //SHOW MONEY
+        string money_ = "Money: ";
+        string money = money_ + to_string(MONEY);
+        Money = graphic.renderText(money , font , color_White);
+        graphic.renderTexture(Money ,SCREEN_WIDTH*0.5 - 200 , 15 );
+
         SDL_RenderPresent(graphic.renderer);
-
-
 
         SDL_Delay(50);
 
@@ -169,8 +217,12 @@ int main(int argc, char *argv[])
     }
 
     p_Monster_list.clear();
+
     //check_fire.quit_bullet_player();
     //player.quit_player();
+
+    SDL_DestroyTexture(TimeText);
+    TTF_CloseFont( font );
 
     graphic.quit();
     game_map_.tile_mat[20].free();

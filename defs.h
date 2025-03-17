@@ -14,6 +14,8 @@
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
 
+int MARK = 0;
+int MONEY = 0;
 
 const char* JUMP_RIGHT_SPRITE_FILE = "img/jum_right.png";
 const char* JUMP_LEFT_SPRITE_FILE = "img/jum_left.png";

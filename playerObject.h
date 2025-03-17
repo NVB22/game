@@ -26,7 +26,6 @@ struct Sprite : public Base
     int tile_x1 ,tile_y1;
     int tile_x2 , tile_y2;
 
-    int health_player = 22;
     bool bullet_hit = false;
 
     int on_ground = 0;
@@ -174,6 +173,7 @@ void Check_player( Map &map_ )
             {
                 map_.tile[tile_y1][tile_x2] = 0;
                 map_.tile[tile_y2][tile_x2] = 0;
+                MONEY++;
             }
             if(map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x2] != 0)
             {
@@ -187,6 +187,7 @@ void Check_player( Map &map_ )
             {
                 map_.tile[tile_y1][tile_x1] = 0;
                 map_.tile[tile_y2][tile_x1] = 0;
+                MONEY++;
             }
             if(map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y2][tile_x1] != 0)
             {
@@ -212,6 +213,7 @@ void Check_player( Map &map_ )
             {
                 map_.tile[tile_y2][tile_x1] = 0;
                 map_.tile[tile_y2][tile_x2] = 0;
+                MONEY++;
             }
             if(map_.tile[tile_y2][tile_x1] != 0 || map_.tile[tile_y2][tile_x2] != 0)
             {
@@ -227,6 +229,7 @@ void Check_player( Map &map_ )
             {
                 map_.tile[tile_y1][tile_x1] = 0;
                 map_.tile[tile_y1][tile_x2] = 0;
+                MONEY++;
             }
             if(map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0)
             {

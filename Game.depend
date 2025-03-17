@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1742142741 source:d:\ltnc\game\main.cpp
+1742186387 source:d:\ltnc\game\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
+	<string>
 	"graphics.h"
 	"defs.h"
 	"baseObject.h"
@@ -12,13 +13,17 @@
 	"BulletObject.h"
 	"BulletMonster.h"
 	"HandelInPut.h"
+	"PlayerIndex.h"
+	<SDL_ttf.h>
 
-1742134501 d:\ltnc\game\graphics.h
+1742180616 d:\ltnc\game\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	"defs.h"
+	<SDL_ttf.h>
+	<string>
 
-1742134501 d:\ltnc\game\defs.h
+1742182008 d:\ltnc\game\defs.h
 
 1742134501 d:\ltnc\game\baseobject.h
 	"defs.h"
@@ -32,7 +37,7 @@
 	"baseObject.h"
 	"defs.h"
 
-1742142741 d:\ltnc\game\playerobject.h
+1742186120 d:\ltnc\game\playerobject.h
 	<iostream>
 	<stdio.h>
 	<cstdio>
@@ -46,7 +51,7 @@
 	"baseObject.h"
 	"HandelInPut.h"
 
-1742140584 d:\ltnc\game\bulletobject.h
+1742182819 d:\ltnc\game\bulletobject.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -73,7 +78,7 @@
 	"BulletMonster.h"
 	"playerObject.h"
 
-1742140847 d:\ltnc\game\bulletmonster.h
+1742145696 d:\ltnc\game\bulletmonster.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -84,4 +89,12 @@
 	"MonsterObject.h"
 	"playerObject.h"
 	"baseObject.h"
+
+1742186203 d:\ltnc\game\playerindex.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	"graphics.h"
+	"defs.h"
 

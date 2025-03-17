@@ -172,12 +172,16 @@ struct Bullet : public Base
                 {
                     SDL_DestroyTexture(p_monster->texture);
                     p_monster->texture = NULL;
-                    p_monster->x_monster=0;
+                    p_monster->x_pos = 0;
+                    p_monster->y_pos = 0;
+                    p_monster->x_monster = 0;
+                    p_monster->y_monster = 0;
                     p_monster->free();
 
                     p_monster_list.erase(p_monster_list.begin() + i);
 
                      bullet_out = true;
+                     MARK++;
 
                 }
             }
