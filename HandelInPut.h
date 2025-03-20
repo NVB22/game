@@ -7,7 +7,14 @@
 
 struct EventPlayer
 {
+    int x , y ;// tọa độ chuột
+
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL) ;
+
+    static bool start_game;
+    static bool quit_game;
+    static bool in_start;
+    static bool in_quit;
 
     static bool event_key_up;
     static bool event_key_down;
@@ -19,8 +26,9 @@ struct EventPlayer
     static int cnt_key_f;
     int status = WALK_RIGHT ;
 
-    void HandelInputAction(SDL_Event event, Graphics_ graphic , Map &map_)
+    void HandelInputAction(SDL_Event &event, Graphics_ &graphic , Map &map_ )
     {
+        //SU KIEN BAN PHIM
         if(currentKeyStates[SDL_SCANCODE_UP])
         {
             event_key_up = true;
@@ -64,9 +72,47 @@ struct EventPlayer
                 event_key_f = false;
             }
         }
+
+        //SU KIEN CHUOT
+        SDL_GetMouseState(&x , &y);
+        if(x > 465 && x < 762 && y > 320 && y<348)
+        {
+            in_start = true;
+        }
+        else
+        {
+            in_start = false;
+        }
+
+        if(x > 540 && x <655 && y > 420 && y < 448)
+        {
+            in_quit = true;
+        }
+        else
+        {
+            in_quit = false;
+        }
+
+        if(event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            if(x > 465 && x < 762 && y > 320 && y<348)
+            {
+                start_game = true;
+            }
+            else if(x > 540 && x <655 && y > 420 && y < 448)
+            {
+                quit_game = true;
+            }
+
+        }
     }
 
 };
+
+bool EventPlayer::start_game = false;
+bool EventPlayer::quit_game = false;
+bool EventPlayer::in_start = false;
+bool EventPlayer::in_quit = false;
 
 bool EventPlayer::event_key_up = false;
 bool EventPlayer::event_key_down = false;

@@ -43,9 +43,9 @@ struct BulletMonster: public Base
     void set_x_target (const int &x) {x_target = x;}
     void set_y_target (const int &y) {y_target = y;}
 
-    void set_bullet_out (bool x) {bullet_out = x;}
-    void set_bullet_dir (const int x) {bullet_dir = x;}
-    void set_target (bool x) {target = x ;}
+    void set_bullet_out (const bool &x) {bullet_out = x;}
+    void set_bullet_dir (const int &x) {bullet_dir = x;}
+    void set_target (const bool &x) {target = x ;}
 
     void Move_Check(Map &map_ , const int &x_limit , const int &y_limit , const int &x_player , const int &y_player , int &health_player )
     {
@@ -69,7 +69,7 @@ struct BulletMonster: public Base
                     bullet_out = true;
 
                 }
-                else if(rect.x <0 || rect.x > x_limit - width_monster2 || rect.x + 256 < x_start  )
+                else if(rect.x <0 || rect.x > x_limit - width_monster2 || rect.x + 320 < x_start  )
                 {
                     bullet_out = true;
                 }
@@ -92,7 +92,7 @@ struct BulletMonster: public Base
                     bullet_out = true;
 
                 }
-                else if(rect.x <0 || rect.x > x_limit - width_monster2 || rect.x - 256 > x_start)
+                else if(rect.x <0 || rect.x > x_limit - width_monster2 || rect.x - 320 > x_start)
                 {
                     bullet_out = true;
                 }

@@ -189,7 +189,7 @@ struct Bullet : public Base
 
     }
 
-    void player_fire( Map &map_ , Graphics_ &graphic  ,const int &x_player , const int &y_player , EventPlayer &event_player ,std::vector <MonsterObject* > p_monster_list)
+    void player_fire( Map &map_ , Graphics_ &graphic  ,const int &x_player , const int &y_player , EventPlayer &event_player ,std::vector <MonsterObject* > &p_monster_list)
     {
         p_bullet = new Bullet();
         if(event_player.event_key_f  )

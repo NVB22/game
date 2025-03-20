@@ -113,7 +113,7 @@ const int DIR_UP_RIGHT = 32;
 const int DIR_DOWN_RIGHT = 33;
 const int DIR_UP_LEFT = 34;
 const int DIR_DOWN_LEFT =35;
-const int SPEED_BULLET1 = 20;
+const int SPEED_BULLET1 = 30;
 const int SPEED_BULLET2 = 10;
 //#define BACKGROUND_IMG "img\\forest.jpg"
 #define BACKGROUND_IMG "img\\123456.png"
