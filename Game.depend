@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1742293082 source:d:\ltnc\game\main.cpp
+1742523784 source:d:\ltnc\game\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -15,12 +15,14 @@
 	"HandelInPut.h"
 	"PlayerIndex.h"
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 
-1742180616 d:\ltnc\game\graphics.h
+1742478442 d:\ltnc\game\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	"defs.h"
 	<SDL_ttf.h>
+	<SDL_mixer.h>
 	<string>
 
 1742285872 d:\ltnc\game\defs.h

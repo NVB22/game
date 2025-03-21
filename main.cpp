@@ -13,6 +13,7 @@
 #include "HandelInPut.h"
 #include "PlayerIndex.h"
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 
 using namespace std;
@@ -79,6 +80,11 @@ int main(int argc, char *argv[])
     TTF_Font* font2 = graphic.loadFont("assets/dlxfont_.ttf" , 30);
     TTF_Font* font3 = graphic.loadFont("assets/dlxfont_.ttf" , 35);
 
+    Mix_Music* backsound = graphic.loadMusic("assets/backsound.mid");
+    bool play_backsound = false;
+    Mix_Music* Action = graphic.loadMusic("assets/Action.mid");
+    Mix_Chunk* player_fire = graphic.loadSound("assets/Fire.wav");
+
     SDL_Color color_White = {255 , 255 , 255} ,
               color_Red = {255 , 0 , 0},
               color_Black = {0 , 0 , 0};
@@ -88,6 +94,11 @@ int main(int argc, char *argv[])
     SDL_Texture* Money = NULL;
     SDL_Texture* StartGame = NULL;
     SDL_Texture* Exit = NULL;
+    SDL_Texture* Win = NULL;
+    SDL_Texture* Lose = NULL;
+
+    bool win = false;
+    bool lose = false;
 
     PlayerIndex player_index;
     player_index.InIt(graphic);
@@ -134,8 +145,11 @@ int main(int argc, char *argv[])
         SDL_SetRenderDrawColor(graphic.renderer, COLOR_KEY_R, COLOR_KEY_G ,  COLOR_KEY_B , RENDER_DRAW_COLOR );
         SDL_RenderClear(graphic.renderer);
 
-        if(Event_player.start_game == false && quit == false)
+        if(Event_player.start_game == false && Event_player.quit_game == false)
         {
+            graphic.play(backsound);
+            play_backsound = true;
+
             if(Event_player.in_start == false)
             {
                 string start_game = "Start Game";
@@ -163,17 +177,19 @@ int main(int argc, char *argv[])
             }
         }
 
-        if(Event_player.quit_game == true)
-        {
-            quit = true;
-        }
 
-        if(Event_player.start_game == true && quit == false)
+        if(Event_player.start_game == true && Event_player.quit_game == false)
         {
+            if (Mix_PlayingMusic() && play_backsound == true ) {
+                Mix_HaltMusic();  // Dừng nhạc đang phát
+                play_backsound = false;
+            }
+            graphic.play(Action);
             //background.Render(graphic.renderer,NULL);
             //game_map_.DrawMap(graphic.renderer);
 
             player.DoPlayer(game_map_.game_map ,Event_player);
+            if(Event_player.event_key_f == true) graphic.play(player_fire);
             check_fire.player_fire( game_map_.game_map , graphic  , player.x_player , player.y_player , Event_player ,p_Monster_list );
             player.show( game_map_.game_map , graphic , Event_player );
 
@@ -197,8 +213,8 @@ int main(int argc, char *argv[])
 
             if(player_index.health <= 0)
             {
-                player.free();
-                quit = true;
+                Event_player.quit_game = true;
+                lose = true;
             }
             else
             {
@@ -218,8 +234,8 @@ int main(int argc, char *argv[])
             Uint32 time_pos = 300 - time_val;
             if(time_pos <= 0)
             {
-                quit = true;
-                player.free();
+                Event_player.quit_game = true;
+                lose = true;
             }
             else
             {
@@ -237,6 +253,28 @@ int main(int argc, char *argv[])
             string money = money_ + to_string(MONEY);
             Money = graphic.renderText(money , font1 , color_White);
             graphic.renderTexture(Money ,SCREEN_WIDTH*0.5 - 200 , 15 );
+        }
+
+        if(Event_player.quit_game == true)
+        {
+            if(lose == true)
+            {
+                SDL_RenderClear(graphic.renderer);
+                string lose_ = "You Lose";
+                Lose = graphic.renderText(lose_ , font3 , color_Red);
+                graphic.renderTexture(Lose , SCREEN_WIDTH*0.5 - 150 , SCREEN_HEIGHT*0.5);
+            }
+            else if(win == true)
+            {
+                SDL_RenderClear(graphic.renderer);
+                string win_ = "You Win";
+                Win = graphic.renderText(win_ , font3 , color_White);
+                graphic.renderTexture(Win ,SCREEN_WIDTH*0.5 - 150 , SCREEN_HEIGHT*0.5 );
+            }
+            else
+            {
+                quit = true;
+            }
         }
 
         SDL_RenderPresent(graphic.renderer);
@@ -257,19 +295,25 @@ int main(int argc, char *argv[])
     }
 
     p_Monster_list.clear();
-
+    player.free();
     //check_fire.quit_bullet_player();
     //player.quit_player();
+    if(playerTexture != NULL) {SDL_DestroyTexture(playerTexture) ; playerTexture = NULL;}
+    if(TimeText != NULL) {SDL_DestroyTexture(TimeText); TimeText = NULL;}
+    if(Mark != NULL) {SDL_DestroyTexture(Mark) ; Mark = NULL;}
+    if(Money != NULL) {SDL_DestroyTexture(Money); Money = NULL;}
+    if(StartGame != NULL) {SDL_DestroyTexture(StartGame); StartGame = NULL;}
+    if(Exit != NULL) {SDL_DestroyTexture(Exit); Exit = NULL;}
+    if(Lose != NULL) {SDL_DestroyTexture(Lose) ; Lose = NULL;}
+    if(Win != NULL) {SDL_DestroyTexture(Win) ; Win = NULL;}
 
-    SDL_DestroyTexture(TimeText);
-    SDL_DestroyTexture(Mark);
-    SDL_DestroyTexture(Money);
-    SDL_DestroyTexture(StartGame);
-    SDL_DestroyTexture(Exit);
+    if(font1 != NULL) TTF_CloseFont( font1 );
+    if(font2 != NULL) TTF_CloseFont(font2);
+    if(font3 != NULL) TTF_CloseFont(font3);
 
-    TTF_CloseFont( font1 );
-    TTF_CloseFont(font2);
-    TTF_CloseFont(font3);
+    if(backsound != NULL) Mix_FreeMusic(backsound);
+    if(Action != NULL) Mix_FreeMusic(Action);
+    if(player_fire != NULL) Mix_FreeChunk(player_fire);
 
     graphic.quit();
     game_map_.tile_mat[20].free();
