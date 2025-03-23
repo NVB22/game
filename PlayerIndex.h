@@ -18,7 +18,7 @@ struct PlayerIndex : public Base
     {
         bool res = LoadImg("assets/player_pw.png" , graphics.renderer);
         if(!res) return ;
-        health = 23;
+        health = 3;
         if(pos_list.size() > 0)
         {
             pos_list.clear();

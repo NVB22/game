@@ -137,7 +137,7 @@ struct BulletMonster: public Base
                 }
                 else if(x_target - rect.x < 0)
                 {
-                    rect.x -= (x_val + INITIAL_SPEED);
+                    rect.x -= (x_val + 5);
 
                     if(rect.x < x_target) rect.x = x_target;
                     rect.y = (1.0*(rect.x - x_start)/u1)*u2 + y_start;
@@ -172,14 +172,18 @@ struct BulletMonster: public Base
         int x2 = x_player + width_player;
         int y1 = y_player;
         int y2 = y_player + height_player;
-        if(rect.x + 10 > x1 && rect.x + 10 < x2 && rect.y + 10 > y1 && rect.y + 10 < y2  )
+        if(y_player != 0)
         {
-            if(bullet_dir == DIR_NONE)
+            if(rect.x + 10 > x1 && rect.x + 10 < x2 && rect.y + 10 > y1 && rect.y + 10 < y2  )
             {
-                set_target(false);
+                if(bullet_dir == DIR_NONE)
+                {
+                    set_target(false);
+                }
+                bullet_out = true;
+                health_player--;
             }
-            bullet_out = true;
-            health_player--;
+
         }
 
 

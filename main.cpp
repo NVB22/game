@@ -25,8 +25,8 @@ vector<MonsterObject *> MakeMonsterList (Graphics_ &graphic )
 
         vector<MonsterObject*> Monster_list ;
 
-        MonsterObject* Monster_move = new MonsterObject[20];
-        for(int i = 0 ; i< 20 ;i++)
+        MonsterObject* Monster_move = new MonsterObject[30];
+        for(int i = 0 ; i< 30 ;i++)
         {
             MonsterObject * p_monster = (Monster_move + i);
             if(p_monster != NULL)
@@ -35,7 +35,7 @@ vector<MonsterObject *> MakeMonsterList (Graphics_ &graphic )
                 p_monster->init( p_monster->p_object , MONSTER2_FRAME ,  MONSTER_CLIP2 );
                 p_monster->set_Monster_type(MONSTER_MOVE);
                 p_monster->set_rect_monster(60 ,50);
-                p_monster->set_x_pos(500 + 1000*i);
+                p_monster->set_x_pos(500 + 800*i);
                 p_monster->set_y_pos(250);
                 int left = p_monster->x_pos - 60;
                 int right = p_monster->x_pos + 60;
@@ -48,9 +48,9 @@ vector<MonsterObject *> MakeMonsterList (Graphics_ &graphic )
             }
         }
 
-        MonsterObject* Monster_not_move = new MonsterObject[20];
+        MonsterObject* Monster_not_move = new MonsterObject[30];
 
-        for(int i=0 ; i<20 ;i++)
+        for(int i=0 ; i<30 ;i++)
         {
             MonsterObject* p_monster = (Monster_not_move + i);
             if(p_monster != NULL)
@@ -59,7 +59,7 @@ vector<MonsterObject *> MakeMonsterList (Graphics_ &graphic )
                 p_monster->init(p_monster->p_object , MONSTER1_FRAME , MONSTER_CLIP1);
                 p_monster->set_Monster_type(MONSTER_NOT_MOVE);
                 p_monster->set_rect_monster(60 , 60);
-                p_monster->set_x_pos(650 + 1200*i);
+                p_monster->set_x_pos(630 + 800*i);
                 p_monster->set_y_pos(250);
 
                 BulletMonster* p_bullet = new BulletMonster();
@@ -94,8 +94,14 @@ int main(int argc, char *argv[])
     SDL_Texture* Money = NULL;
     SDL_Texture* StartGame = NULL;
     SDL_Texture* Exit = NULL;
+
     SDL_Texture* Win = NULL;
+    string win_ = "You Win";
+    Win = graphic.renderText(win_ , font3 , color_White);
+
     SDL_Texture* Lose = NULL;
+    string lose_ = "You Lose";
+    Lose = graphic.renderText(lose_ , font3 , color_Red);
 
     bool win = false;
     bool lose = false;
@@ -103,10 +109,7 @@ int main(int argc, char *argv[])
     PlayerIndex player_index;
     player_index.InIt(graphic);
 
-    /*Base background;
-    bool res=background.LoadImg("img//background.png",graphic.renderer);
-
-    if(!res) return -1;*/
+    SDL_Texture* BackGround = graphic.loadTexture("img/backGround.jpg");
 
     char* name="map/map01.dat";
 
@@ -180,18 +183,27 @@ int main(int argc, char *argv[])
 
         if(Event_player.start_game == true && Event_player.quit_game == false)
         {
-            if (Mix_PlayingMusic() && play_backsound == true ) {
+             if (Mix_PlayingMusic() && play_backsound == true ) {
                 Mix_HaltMusic();  // Dừng nhạc đang phát
                 play_backsound = false;
             }
             graphic.play(Action);
+
+            SDL_RenderCopy(graphic.renderer , BackGround , NULL , NULL);
             //background.Render(graphic.renderer,NULL);
             //game_map_.DrawMap(graphic.renderer);
 
-            player.DoPlayer(game_map_.game_map ,Event_player);
-            if(Event_player.event_key_f == true) graphic.play(player_fire);
+            player.DoPlayer(game_map_.game_map ,Event_player , player_index.health);
+             if(Event_player.event_key_f == true) graphic.play(player_fire);
             check_fire.player_fire( game_map_.game_map , graphic  , player.x_player , player.y_player , Event_player ,p_Monster_list );
             player.show( game_map_.game_map , graphic , Event_player );
+
+            //CHECK WIN
+            if(player.finishing == true)
+            {
+                win = true;
+                Event_player.quit_game = true;
+            }
 
             game_map_.DrawMap(graphic.renderer);
 
@@ -255,20 +267,14 @@ int main(int argc, char *argv[])
             graphic.renderTexture(Money ,SCREEN_WIDTH*0.5 - 200 , 15 );
         }
 
-        if(Event_player.quit_game == true)
+        if(Event_player.quit_game == true && quit == false)
         {
             if(lose == true)
             {
-                SDL_RenderClear(graphic.renderer);
-                string lose_ = "You Lose";
-                Lose = graphic.renderText(lose_ , font3 , color_Red);
                 graphic.renderTexture(Lose , SCREEN_WIDTH*0.5 - 150 , SCREEN_HEIGHT*0.5);
             }
             else if(win == true)
             {
-                SDL_RenderClear(graphic.renderer);
-                string win_ = "You Win";
-                Win = graphic.renderText(win_ , font3 , color_White);
                 graphic.renderTexture(Win ,SCREEN_WIDTH*0.5 - 150 , SCREEN_HEIGHT*0.5 );
             }
             else
@@ -296,9 +302,12 @@ int main(int argc, char *argv[])
 
     p_Monster_list.clear();
     player.free();
+
     //check_fire.quit_bullet_player();
     //player.quit_player();
+    if(BackGround != NULL) {SDL_DestroyTexture(BackGround) ; BackGround = NULL;}
     if(playerTexture != NULL) {SDL_DestroyTexture(playerTexture) ; playerTexture = NULL;}
+
     if(TimeText != NULL) {SDL_DestroyTexture(TimeText); TimeText = NULL;}
     if(Mark != NULL) {SDL_DestroyTexture(Mark) ; Mark = NULL;}
     if(Money != NULL) {SDL_DestroyTexture(Money); Money = NULL;}
@@ -307,9 +316,9 @@ int main(int argc, char *argv[])
     if(Lose != NULL) {SDL_DestroyTexture(Lose) ; Lose = NULL;}
     if(Win != NULL) {SDL_DestroyTexture(Win) ; Win = NULL;}
 
-    if(font1 != NULL) TTF_CloseFont( font1 );
-    if(font2 != NULL) TTF_CloseFont(font2);
-    if(font3 != NULL) TTF_CloseFont(font3);
+    TTF_CloseFont( font1 );
+    TTF_CloseFont(font2);
+    TTF_CloseFont(font3);
 
     if(backsound != NULL) Mix_FreeMusic(backsound);
     if(Action != NULL) Mix_FreeMusic(Action);

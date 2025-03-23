@@ -12,7 +12,7 @@
 #include "gameMap.h"
 #include "BulletObject.h"
 #include "baseObject.h"
-
+#include "PlayerIndex.h"
 #include "HandelInPut.h"
 
 struct Sprite : public Base
@@ -20,6 +20,8 @@ struct Sprite : public Base
     SDL_Texture* texture;
     std::vector <SDL_Rect> clip;
     int currentFrame =0;
+
+    bool finishing = false;
 
     int x_pos=0 , y_pos=0 ; // vị trí hiện tại của nhân vật, quái so với vị trí map ban đầu
     // vị trí các ô nhân vật đứng
@@ -118,7 +120,7 @@ struct Sprite : public Base
         else currentFrame = 0;
     }
 
-     void DoPlayer( Map &map_ ,EventPlayer &event_player)
+     void DoPlayer( Map &map_ ,EventPlayer &event_player ,int &health_player)
 {
     x_val = 0 ;
     y_val += ACCELERATION ;
@@ -132,7 +134,7 @@ struct Sprite : public Base
     if(event_player.event_key_right == true) x_val += INITIAL_SPEED ;
     if(event_player.event_key_left == true) x_val -= INITIAL_SPEED;
 
-    Check_player(map_ ) ;
+    Check_player(map_ , health_player) ;
     CenterEntityOnMap(map_  );
     x_player = x_pos - map_.start_x;
     y_player = y_pos - map_.start_y;
@@ -146,15 +148,15 @@ void CenterEntityOnMap (Map &map_  )
         if(map_.start_x + SCREEN_WIDTH > map_.max_x) map_.start_x = map_.max_x - SCREEN_WIDTH;
     }
     else map_.start_x = 0;
-    /*if(y_pos > SCREEN_HEIGHT/2)
+    if(y_pos > SCREEN_HEIGHT/2)
     {
         map_.start_y = y_pos - SCREEN_HEIGHT/2;
         if(map_.start_y + SCREEN_HEIGHT > map_.max_y) map_.start_y = map_.max_y - SCREEN_HEIGHT;
     }
-    else map_.start_y = 0;*/
+    else map_.start_y = 0;
 }
 
-void Check_player( Map &map_ )
+void Check_player( Map &map_  , int &health_player)
 {
     //CHECK DI CHUYỂN NGANG;
     int height_min = height_player < TILE_SIZE ? height_player : TILE_SIZE;
@@ -242,14 +244,20 @@ void Check_player( Map &map_ )
     y_pos += y_val;
 
     if(x_pos < 0) x_pos = 0;
-    else if(x_pos > map_.max_x - width_player) x_pos = map_.max_x - width_player;
+    else if(x_pos > map_.max_x - width_player)
+    {
+        x_pos = map_.max_x - width_player;
+        finishing = true;
+    }
 
     if(y_pos > map_.max_y)
     {
         x_pos -= width_player;
         y_pos = 0;
         on_ground = 0;
+        health_player--;
     }
+
 }
 
 

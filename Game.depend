@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1742523784 source:d:\ltnc\game\main.cpp
+1742699558 source:d:\ltnc\game\main.cpp
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -25,7 +25,7 @@
 	<SDL_mixer.h>
 	<string>
 
-1742285872 d:\ltnc\game\defs.h
+1742700955 d:\ltnc\game\defs.h
 
 1742134501 d:\ltnc\game\baseobject.h
 	"defs.h"
@@ -39,7 +39,7 @@
 	"baseObject.h"
 	"defs.h"
 
-1742186120 d:\ltnc\game\playerobject.h
+1742563214 d:\ltnc\game\playerobject.h
 	<iostream>
 	<stdio.h>
 	<cstdio>
@@ -51,6 +51,7 @@
 	"gameMap.h"
 	"BulletObject.h"
 	"baseObject.h"
+	"PlayerIndex.h"
 	"HandelInPut.h"
 
 1742284924 d:\ltnc\game\bulletobject.h
@@ -80,7 +81,7 @@
 	"BulletMonster.h"
 	"playerObject.h"
 
-1742285872 d:\ltnc\game\bulletmonster.h
+1742529105 d:\ltnc\game\bulletmonster.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -92,7 +93,7 @@
 	"playerObject.h"
 	"baseObject.h"
 
-1742186203 d:\ltnc\game\playerindex.h
+1742527249 d:\ltnc\game\playerindex.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
