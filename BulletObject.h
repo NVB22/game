@@ -11,6 +11,7 @@
 #include "playerObject.h"
 #include "HandelInPut.h"
 #include "MonsterObject.h"
+#include "Explosion.h"
 
 struct Bullet : public Base
 {
@@ -38,7 +39,7 @@ struct Bullet : public Base
     void set_bullet_out (bool x) {bullet_move = x;}
     void set_bullet_dir (const int x) {bullet_dir = x;}
 
-    void Move_Check (const int &x_max , const int &y_max , Map &map_ , std::vector <MonsterObject* > &p_monster_list)
+    void Move_Check (Map &map_ , std::vector <MonsterObject* > &p_monster_list , Explosion &exp)
     {
         int tile_x1 , tile_y1;
         int tile_x2 , tile_y2;
@@ -56,7 +57,7 @@ struct Bullet : public Base
 
             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
             {
-                if(rect.x > x_max || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
+                if(rect.x > SCREEN_WIDTH || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
                 {
                     bullet_out = true;
                 }
@@ -74,7 +75,7 @@ struct Bullet : public Base
 
              if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
              {
-                  if(rect.x >x_max || rect.y < 0 || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0)
+                  if(rect.x > SCREEN_WIDTH || rect.y < 0 || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0)
                     {
                         bullet_out = true;
                     }
@@ -93,7 +94,7 @@ struct Bullet : public Base
 
             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
             {
-                if(rect.x > x_max || rect.y > y_max || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0)
+                if(rect.x > SCREEN_WIDTH || rect.y > SCREEN_HEIGHT || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0)
                 {
                     bullet_out = true;
                 }
@@ -132,7 +133,7 @@ struct Bullet : public Base
 
             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
            {
-                if(rect.x < 0 || rect.y > y_max || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0)
+                if(rect.x < 0 || rect.y > SCREEN_HEIGHT || map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0)
                 {
                     bullet_out = true;
                 }
@@ -170,6 +171,8 @@ struct Bullet : public Base
 
                 if(rect.x > x1 && rect.x < x2 && rect.y > y1 && rect.y <y2 )
                 {
+                    exp.explode = true;
+                    exp.SetRect(rect.x - WIDTH_EXP*0.5 , rect.y - HEIGHT_EXP*0.5 );
                     SDL_DestroyTexture(p_monster->texture);
                     p_monster->texture = NULL;
                     p_monster->x_pos = 0;
@@ -189,7 +192,7 @@ struct Bullet : public Base
 
     }
 
-    void player_fire( Map &map_ , Graphics_ &graphic  ,const int &x_player , const int &y_player , EventPlayer &event_player ,std::vector <MonsterObject* > &p_monster_list)
+    void player_fire( Map &map_ , Graphics_ &graphic  ,const int &x_player , const int &y_player , EventPlayer &event_player ,std::vector <MonsterObject* > &p_monster_list , Explosion &exp)
     {
         p_bullet = new Bullet();
         if(event_player.event_key_f  )
@@ -203,17 +206,17 @@ struct Bullet : public Base
 
             if(event_player.status == WALK_RIGHT && event_player.event_key_up && event_player.event_key_down == true)
             {
-                p_bullet->SetRect(x_player +width_player -20 ,y_player + 64*0.25 );
+                p_bullet->SetRect(x_player + WIDTH_PLAYER -20 ,y_player + 64*0.25 );
                 p_bullet->set_bullet_dir(DIR_UP_RIGHT);
             }
             else if(event_player.status == WALK_RIGHT && event_player.event_key_down)
             {
-                p_bullet->SetRect(x_player + width_player -20 ,y_player + 64*0.25 );
+                p_bullet->SetRect(x_player + WIDTH_PLAYER -20 ,y_player + 64*0.25 );
                 p_bullet->set_bullet_dir(DIR_DOWN_RIGHT);
             }
             else if(event_player.status == WALK_RIGHT )
             {
-                p_bullet->SetRect(x_player + width_player -20 ,y_player + 64*0.25 );
+                p_bullet->SetRect(x_player + WIDTH_PLAYER -20 ,y_player + 64*0.25 );
                 p_bullet->set_bullet_dir(DIR_RIGHT);
             }
 
@@ -244,9 +247,10 @@ struct Bullet : public Base
             {
                 Bullet *bullet = p_bullet_list[i];
                 if(bullet != NULL)
+                {
                     if(bullet->bullet_out == false )
                     {
-                        bullet->Move_Check(SCREEN_WIDTH , SCREEN_HEIGHT , map_ ,p_monster_list);
+                        bullet->Move_Check( map_ ,p_monster_list , exp);
                         bullet->Render(graphic.renderer);
                     }
                     else if(bullet->bullet_out == true)
@@ -256,6 +260,7 @@ struct Bullet : public Base
                         delete bullet ;
                         bullet = NULL;
                     }
+                }
             }
     }
 

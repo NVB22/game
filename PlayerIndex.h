@@ -31,7 +31,8 @@ struct PlayerIndex : public Base
 
     void Show(Graphics_ &graphic)
     {
-        for(int i=0 ; i<pos_list.size() ;i++)
+        int n = pos_list.size();
+        for(int i=0 ; i<n ;i++)
         {
             rect.x = pos_list.at(i);
             rect.y = 0;

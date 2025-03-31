@@ -26,24 +26,27 @@ const char* BULLET_MONSTER_STONE = "img/bullet_stone.png";
 const char* BULLET1 = "img/bullet.png";
 const char* BULLET2 = "img/round_bullet_20x20.png";
 const char* LAZE = "img/bullet1.png";
-const char* LAZE_BULLET = "img/laser_sprite_gray_bg (1).png";
-
+const char* EXP = "img/exp3.png";
 
 const char* LEFT_MONSTER1_FILE = "img/threat_level.png";
 const char* LEFT_MONSTER2_FILE = "img/threat_left.png";
 const char* RIGHT_MONSTER2_FILE = "img/threat_right.png";
 
 
-const int width_player = 60;
-const int height_player = 64 ;
+const int WIDTH_PLAYER = 60;
+const int HEIGHT_PLAYER = 64 ;
 
 //kích thước của quái
-const int width_monster1 = 60;
-const int height_monster1 = 60;
+const int WIDTH_MONSTER1 = 60;
+const int HEIGHT_MONSTER1 = 60;
 
-const int width_monster2 = 60 ;
-const int height_monster2 = 50 ;
+const int WIDTH_MONSTER2 = 60 ;
+const int HEIGHT_MONSTER2 = 50 ;
 
+const int WIDTH_EXP = 150;
+const int HEIGHT_EXP = 165;
+
+const int DISTANCE = 128;
 
 const int PLAY1_CLIP1[][4] = {
     {0,0, 60 , 64},
@@ -78,9 +81,23 @@ const int MONSTER_CLIP2[][4] = {
     {420 , 0 , 60 , 50},
 };
 
+const int EXP_CLIP[][4] =
+{
+    {0 , 0 , 150 , 165 },
+    {150 , 0 , 150 , 165},
+    {300 , 0 , 150 , 165},
+    {450 , 0 , 150 , 165},
+    {600 , 0 , 150 , 165},
+    {750 , 0 , 150 , 165},
+    {900 , 0 , 150 , 165},
+    {1050 , 0 , 150 , 165},
+    {1200 , 0 , 150 , 165}
+};
+
 const int PLAYER1_FRAME = sizeof(PLAY1_CLIP1)/sizeof(int)/4;
 const int MONSTER1_FRAME =sizeof(MONSTER_CLIP1)/sizeof(int)/4;
 const int MONSTER2_FRAME = sizeof(MONSTER_CLIP2)/sizeof(int)/4;
+const int EXP_FRAME = sizeof(EXP_CLIP)/sizeof(int)/4;
 
 const int MONSTER_MOVE = 100 ;
 const int MONSTER_NOT_MOVE = 101;

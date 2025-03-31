@@ -159,12 +159,12 @@ void CenterEntityOnMap (Map &map_  )
 void Check_player( Map &map_  , int &health_player)
 {
     //CHECK DI CHUYỂN NGANG;
-    int height_min = height_player < TILE_SIZE ? height_player : TILE_SIZE;
+    int height_min = HEIGHT_PLAYER < TILE_SIZE ? HEIGHT_PLAYER : TILE_SIZE;
 
     tile_x1 = (x_pos + x_val) / TILE_SIZE;
     tile_y1 = y_pos / TILE_SIZE;
 
-    tile_x2 = (x_pos + x_val + width_player -1) / TILE_SIZE;
+    tile_x2 = (x_pos + x_val + WIDTH_PLAYER -1) / TILE_SIZE;
     tile_y2 = (y_pos + height_min -1) / TILE_SIZE;
 
     if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
@@ -179,7 +179,7 @@ void Check_player( Map &map_  , int &health_player)
             }
             if(map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x2] != 0)
             {
-                x_pos = tile_x2 * TILE_SIZE - width_player - 1;
+                x_pos = tile_x2 * TILE_SIZE - WIDTH_PLAYER - 1;
                 x_val = 0;
             }
         }
@@ -200,12 +200,12 @@ void Check_player( Map &map_  , int &health_player)
     }
 
     // CHECK RƠI
-    int width_min = width_player < TILE_SIZE ? width_player : TILE_SIZE;
+    int width_min = WIDTH_PLAYER < TILE_SIZE ? WIDTH_PLAYER : TILE_SIZE;
     tile_x1 = (x_pos) / TILE_SIZE;
     tile_y1 = (y_pos + y_val) / TILE_SIZE;
 
     tile_x2 = (x_pos + width_min) / TILE_SIZE;
-    tile_y2 = (y_pos + height_player + y_val -1) / TILE_SIZE;
+    tile_y2 = (y_pos + HEIGHT_PLAYER + y_val -1) / TILE_SIZE;
 
     if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
     {
@@ -220,7 +220,7 @@ void Check_player( Map &map_  , int &health_player)
             if(map_.tile[tile_y2][tile_x1] != 0 || map_.tile[tile_y2][tile_x2] != 0)
             {
                 y_pos = tile_y2 * TILE_SIZE;
-                y_pos -= (height_player + 1);
+                y_pos -= (HEIGHT_PLAYER + 1);
                 y_val = 0;
                 on_ground = 1;
             }
@@ -244,15 +244,15 @@ void Check_player( Map &map_  , int &health_player)
     y_pos += y_val;
 
     if(x_pos < 0) x_pos = 0;
-    else if(x_pos > map_.max_x - width_player)
+    else if(x_pos > map_.max_x - WIDTH_PLAYER)
     {
-        x_pos = map_.max_x - width_player;
+        x_pos = map_.max_x -WIDTH_PLAYER;
         finishing = true;
     }
 
     if(y_pos > map_.max_y)
     {
-        x_pos -= width_player;
+        x_pos -= WIDTH_PLAYER;
         y_pos = 0;
         on_ground = 0;
         health_player--;

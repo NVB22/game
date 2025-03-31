@@ -178,6 +178,8 @@ struct MonsterObject : public Base
                 {
                     x_pos = tile_x2 * TILE_SIZE - width_monster - 1;
                     x_val = 0;
+                    lim_right = x_pos  - 1;
+                    lim_left = lim_right - 120;
                 }
             }
             else
@@ -189,6 +191,8 @@ struct MonsterObject : public Base
                 {
                     x_pos = (tile_x1 + 1) * TILE_SIZE;
                     x_val = 0;
+                    lim_left = x_pos + 1;
+                    lim_right = lim_left + 120;
                 }
             }
         }
@@ -225,7 +229,11 @@ struct MonsterObject : public Base
 
         if(y_pos > map_.max_y)
         {
-            texture = NULL;
+            if(texture != NULL)
+            {
+                SDL_DestroyTexture(texture);
+                texture = NULL;
+            }
             free();
         }
     }
@@ -246,6 +254,7 @@ struct MonsterObject : public Base
                 p_bullet->SetRect(x_monster , y_monster + 25);
                 p_bullet->set_bullet_dir(DIR_LEFT);
                 if(res) p_bullet_list.push_back(p_bullet);
+                else std::cerr<<"fail";
             }
             else
             {
@@ -258,11 +267,12 @@ struct MonsterObject : public Base
                 p_bullet->SetRect(x_monster , y_monster + 5);
                 p_bullet->set_bullet_dir(DIR_NONE);
                 if(res) p_bullet_list.push_back(p_bullet);
+                else std::cerr<<"fail";
             }
         }
     }
 
-    void MakeBullet(Map &map_ , Graphics_ &graphic , const int &x_limit , const int &y_limit , const int &x_player , const int &y_player , int &health_player)
+    void MakeBullet(Map &map_ ,const Graphics_ &graphic  , const int &x_player , const int &y_player , int &health_player)
     {
         for(int i=0 ; i < p_bullet_list.size() ; i++)
         {
@@ -278,21 +288,20 @@ struct MonsterObject : public Base
             {
                 if(p_bullet->bullet_out == false)
                 {
-
                     if(type_monster == MONSTER_MOVE)
                     {
                         if(Monster_status == MONSTER_MOVE_LEFT ) p_bullet->set_bullet_dir(DIR_LEFT);
                         else if(Monster_status == MONSTER_MOVE_RIGHT) p_bullet->set_bullet_dir(DIR_RIGHT);
                     }
-                    p_bullet->Move_Check(map_ , x_limit , y_limit , x_player , y_player, health_player);
+                    p_bullet->Move_Check(map_ , x_player , y_player, health_player);
                     p_bullet->Render(graphic.renderer);
                 }
                 else
                 {
                     p_bullet->set_bullet_out(false);
-                    p_bullet->SetRect(x_monster , y_monster + 25);
+                    p_bullet->SetRect(x_monster , y_monster + 20);
                     p_bullet->set_x_start(x_monster);
-                    p_bullet->set_y_start(y_monster + 25);
+                    p_bullet->set_y_start(y_monster + 20);
 
                     /*p_bullet->free();
                     p_bullet=NULL;

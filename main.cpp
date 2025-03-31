@@ -12,64 +12,12 @@
 #include "BulletMonster.h"
 #include "HandelInPut.h"
 #include "PlayerIndex.h"
+#include "Explosion.h"
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
-
+#include "InItGame.h"
 
 using namespace std;
-
-
-
-vector<MonsterObject *> MakeMonsterList (Graphics_ &graphic )
-    {
-
-        vector<MonsterObject*> Monster_list ;
-
-        MonsterObject* Monster_move = new MonsterObject[30];
-        for(int i = 0 ; i< 30 ;i++)
-        {
-            MonsterObject * p_monster = (Monster_move + i);
-            if(p_monster != NULL)
-            {
-                p_monster->LoadImg_monster(LEFT_MONSTER2_FILE , graphic.renderer);
-                p_monster->init( p_monster->p_object , MONSTER2_FRAME ,  MONSTER_CLIP2 );
-                p_monster->set_Monster_type(MONSTER_MOVE);
-                p_monster->set_rect_monster(60 ,50);
-                p_monster->set_x_pos(500 + 800*i);
-                p_monster->set_y_pos(250);
-                int left = p_monster->x_pos - 60;
-                int right = p_monster->x_pos + 60;
-                p_monster->set_lim_move(right , left);
-
-                BulletMonster* p_bullet = new BulletMonster();
-                p_monster->InItBullet(p_bullet , graphic);
-
-                Monster_list.push_back(p_monster);
-            }
-        }
-
-        MonsterObject* Monster_not_move = new MonsterObject[30];
-
-        for(int i=0 ; i<30 ;i++)
-        {
-            MonsterObject* p_monster = (Monster_not_move + i);
-            if(p_monster != NULL)
-            {
-                p_monster->LoadImg_monster(LEFT_MONSTER1_FILE , graphic.renderer);
-                p_monster->init(p_monster->p_object , MONSTER1_FRAME , MONSTER_CLIP1);
-                p_monster->set_Monster_type(MONSTER_NOT_MOVE);
-                p_monster->set_rect_monster(60 , 60);
-                p_monster->set_x_pos(630 + 800*i);
-                p_monster->set_y_pos(250);
-
-                BulletMonster* p_bullet = new BulletMonster();
-                p_monster->InItBullet(p_bullet , graphic);
-
-                Monster_list.push_back(p_monster);
-            }
-        }
-        return Monster_list;
-    }
 
 int main(int argc, char *argv[])
 {
@@ -84,10 +32,10 @@ int main(int argc, char *argv[])
     bool play_backsound = false;
     Mix_Music* Action = graphic.loadMusic("assets/Action.mid");
     Mix_Chunk* player_fire = graphic.loadSound("assets/Fire.wav");
+    Mix_Chunk* exp_monster = graphic.loadSound("assets/Explosion+1.wav");
 
     SDL_Color color_White = {255 , 255 , 255} ,
-              color_Red = {255 , 0 , 0},
-              color_Black = {0 , 0 , 0};
+              color_Red = {255 , 0 , 0};
 
     SDL_Texture* TimeText = NULL;
     SDL_Texture* Mark = NULL;
@@ -111,16 +59,12 @@ int main(int argc, char *argv[])
 
     SDL_Texture* BackGround = graphic.loadTexture("img/backGround.jpg");
 
-    char* name="map/map01.dat";
+    char name[] = "map/map01.dat";
 
     GameMap game_map_;
 
     game_map_.LoadMap(name);
     game_map_.LoadTiles(graphic.renderer);
-
-
-    SDL_Event event;
-    EventPlayer Event_player;
 
     Sprite player;
     SDL_Texture* playerTexture=graphic.loadTexture(RIGHT1_SPRITE_FILE);
@@ -129,6 +73,12 @@ int main(int argc, char *argv[])
     Bullet check_fire;
     std::vector <MonsterObject *> p_Monster_list = MakeMonsterList(graphic );
 
+    Explosion exp ;
+    exp.LoadImg_exp(EXP , graphic.renderer);
+    exp.init(EXP_FRAME , EXP_CLIP);
+
+    SDL_Event event;
+    EventPlayer Event_player;
     bool quit=false;
     //VÒNG LẶP CHÍNH CỦA GAME
     while(!quit)
@@ -190,12 +140,20 @@ int main(int argc, char *argv[])
             graphic.play(Action);
 
             SDL_RenderCopy(graphic.renderer , BackGround , NULL , NULL);
-            //background.Render(graphic.renderer,NULL);
-            //game_map_.DrawMap(graphic.renderer);
 
             player.DoPlayer(game_map_.game_map ,Event_player , player_index.health);
              if(Event_player.event_key_f == true) graphic.play(player_fire);
-            check_fire.player_fire( game_map_.game_map , graphic  , player.x_player , player.y_player , Event_player ,p_Monster_list );
+            check_fire.player_fire( game_map_.game_map , graphic  , player.x_player , player.y_player , Event_player ,p_Monster_list , exp);
+            if(exp.explode)
+            {
+                graphic.play(exp_monster);
+                for(int frame = 0 ; frame < EXP_FRAME ; frame++)
+                {
+                    exp.setFrame(frame);
+                    exp.show(graphic.renderer );
+                }
+                exp.explode = false;
+            }
             player.show( game_map_.game_map , graphic , Event_player );
 
             //CHECK WIN
@@ -214,10 +172,10 @@ int main(int argc, char *argv[])
                 MonsterObject* p_monster = p_Monster_list.at(i);
                 if(p_monster != NULL)
                 {
-                    p_monster->ImpMoveType(graphic);
+                    p_monster->ImpMoveType(graphic );
                     p_monster->DoMonster(game_map_.game_map );
 
-                    p_monster->MakeBullet(game_map_.game_map ,graphic , SCREEN_WIDTH , SCREEN_HEIGHT , player.x_player , player.y_player ,player_index.health );
+                    p_monster->MakeBullet(game_map_.game_map ,graphic  , player.x_player , player.y_player ,player_index.health );
                     p_monster->show(game_map_.game_map , graphic);
 
                 }
@@ -324,6 +282,7 @@ int main(int argc, char *argv[])
     if(Action != NULL) Mix_FreeMusic(Action);
     if(player_fire != NULL) Mix_FreeChunk(player_fire);
 
+    exp.free();
     graphic.quit();
     game_map_.tile_mat[20].free();
     return 0;
