@@ -5,20 +5,41 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <vector>
+#include <fstream>
 #include "graphics.h"
 #include "defs.h"
 
 struct PlayerIndex : public Base
 {
     int health;
+    int highMark;
     std::vector<int> pos_list;
     int size_pos_list;
 
+    int LoadHighScore(const std::string& filename) {
+    std::ifstream file(filename);
+    int highscore = 0;
+    if (file.is_open()) {
+        file >> highscore;
+        file.close();
+    }
+    return highscore;
+    }
+
+    void SaveHighScore(const std::string& filename, int score) {
+        std::ofstream file(filename);
+        if (file.is_open()) {
+            file << score;
+            file.close();
+        }
+    }
+
     void InIt(Graphics_ &graphics )
     {
+        highMark = LoadHighScore("assets/highscore.txt");
         bool res = LoadImg("assets/player_pw.png" , graphics.renderer);
         if(!res) return ;
-        health = 3;
+        health = HEALTH_PLAYER;
         if(pos_list.size() > 0)
         {
             pos_list.clear();
@@ -51,6 +72,7 @@ struct PlayerIndex : public Base
         pos_list.push_back(last_pos + 40);
         size_pos_list = pos_list.size();
     }
+
 };
 
 #endif // PLAYERINDEX_H_INCLUDED

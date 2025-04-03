@@ -274,7 +274,7 @@ struct MonsterObject : public Base
 
     void MakeBullet(Map &map_ ,const Graphics_ &graphic  , const int &x_player , const int &y_player , int &health_player)
     {
-        for(int i=0 ; i < p_bullet_list.size() ; i++)
+        for(int i=0 ; i < (int)p_bullet_list.size() ; i++)
         {
             BulletMonster* p_bullet = p_bullet_list[i];
 

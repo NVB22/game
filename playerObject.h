@@ -244,9 +244,9 @@ void Check_player( Map &map_  , int &health_player)
     y_pos += y_val;
 
     if(x_pos < 0) x_pos = 0;
-    else if(x_pos > map_.max_x - WIDTH_PLAYER)
+    else if(x_pos > map_.max_x - 2*WIDTH_PLAYER)
     {
-        x_pos = map_.max_x -WIDTH_PLAYER;
+        x_pos = map_.max_x - WIDTH_PLAYER;
         finishing = true;
     }
 

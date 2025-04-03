@@ -14,6 +14,7 @@
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
 
+int HEALTH_PLAYER = 5;
 int MARK = 0;
 int MONEY = 0;
 
@@ -46,7 +47,7 @@ const int HEIGHT_MONSTER2 = 50 ;
 const int WIDTH_EXP = 150;
 const int HEIGHT_EXP = 165;
 
-const int DISTANCE = 128;
+const int DISTANCE = 200;
 
 const int PLAY1_CLIP1[][4] = {
     {0,0, 60 , 64},
@@ -133,6 +134,10 @@ const int DIR_DOWN_LEFT =35;
 const int SPEED_BULLET1 = 20;
 const int SPEED_BULLET2 = 10;
 //#define BACKGROUND_IMG "img\\forest.jpg"
+
+SDL_Color color_White = {255, 255, 255};
+SDL_Color color_Red = {255, 0, 0};
+
 #define BACKGROUND_IMG "img\\123456.png"
 
 #endif // DEFS_H_INCLUDED

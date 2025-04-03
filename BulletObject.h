@@ -159,7 +159,7 @@ struct Bullet : public Base
         }
 
         //MOVE ANHD CHECK TO MONSTER
-        for(int i=0 ; i<p_monster_list.size() ; i++)
+        for(int i=0 ; i< (int)p_monster_list.size() ; i++)
         {
             MonsterObject* p_monster = p_monster_list.at(i);
             if(p_monster != NULL )
@@ -243,7 +243,7 @@ struct Bullet : public Base
             }
 
         }
-        for(int i=0 ;i < p_bullet_list.size()  ; i++)
+        for(int i=0 ;i < (int)p_bullet_list.size()  ; i++)
             {
                 Bullet *bullet = p_bullet_list[i];
                 if(bullet != NULL)
