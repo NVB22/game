@@ -36,6 +36,7 @@
 		<Unit filename="BulletObject.h" />
 		<Unit filename="Explosion.h" />
 		<Unit filename="HandelInPut.h" />
+		<Unit filename="ImpTimer.h" />
 		<Unit filename="InItGame.h" />
 		<Unit filename="MonsterObject.h" />
 		<Unit filename="PlayerIndex.h" />

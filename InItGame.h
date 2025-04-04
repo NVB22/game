@@ -18,7 +18,7 @@
 #include "Explosion.h"
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
-#include "InItGame.h"
+#include "ImpTimer.h"
 
 using namespace std;
 
@@ -90,6 +90,7 @@ struct GameResources {
     SDL_Texture* TimeText = NULL;
     SDL_Texture* Mark = NULL;
     SDL_Texture* Money = NULL;
+    SDL_Texture* Pause = NULL;
 
     SDL_Texture* StartGame = NULL;
     SDL_Texture* Exit = NULL;
@@ -103,7 +104,6 @@ struct GameResources {
 };
 
 void InitGame(Graphics_& graphic, GameResources& resources) {
-    graphic.initSDL();
 
     resources.font1 = graphic.loadFont("assets/dlxfont_.ttf", 15);
     resources.font2 = graphic.loadFont("assets/dlxfont_.ttf", 30);
@@ -117,12 +117,62 @@ void InitGame(Graphics_& graphic, GameResources& resources) {
     resources.BackGround = graphic.loadTexture("img/backGround.jpg");
     resources.playerTexture = graphic.loadTexture(RIGHT1_SPRITE_FILE);
 
-    string win_ = "You Win";
+    resources.Pause = graphic.loadTexture("img/pause.png");
+    string win_ = "You Win!";
     resources.Win = graphic.renderText(win_ , resources.font3 , color_White);
-    string lose_ = "You Lose";
+    string lose_ = "You Lose!";
     resources.Lose = graphic.renderText(lose_ , resources.font3 , color_Red);
 }
 
+void CleanMonster(std::vector<MonsterObject *> p_Monster_list)
+{
+    for(int i=0 ; i< (int)p_Monster_list.size() ;i++)
+    {
+        MonsterObject* p_monster = p_Monster_list.at(i);
+        if(p_monster != NULL)
+        {
+            p_monster->free();
+            p_monster = NULL;
+        }
+    }
+    p_Monster_list.clear();
+}
+
+void ResetGame(Graphics_ &graphic,
+               PlayerIndex &player_index,
+               GameMap &game_map_,
+               Sprite &player,
+               Bullet &check_fire,
+               std::vector<MonsterObject *> &p_Monster_list,
+               Explosion &exp,
+               EventPlayer &Event_player,
+               ImpTimer &impTimer)
+{
+    //reset player
+    player.reset();
+    player.LoadImg(RIGHT1_SPRITE_FILE , graphic.renderer);
+    player.init(player.p_object, PLAYER1_FRAME, PLAY1_CLIP1);
+    //reset map
+    game_map_.LoadMap(MAP_FILE);
+    game_map_.LoadTiles(graphic.renderer);
+    //reset index
+    MARK = 0;
+    MONEY = 0;
+    player_index.InIt(graphic);
+    //reset Monster
+    CleanMonster(p_Monster_list);
+    p_Monster_list = MakeMonsterList(graphic);
+    //reset Exp
+    exp.LoadImg_exp(EXP , graphic.renderer);
+    exp.init(EXP_FRAME , EXP_CLIP);
+    //reset bullet
+    check_fire.init_bullet();
+    //reset time
+    impTimer.init();
+    //reset input
+    Event_player.reset();
+
+}
 void ShowMainMenu(Graphics_& graphic, EventPlayer& Event_player, GameResources &resources) {
     // Nếu nhạc chưa phát, bắt đầu phát nhạc nền
     if (!resources.play_backsound) {
@@ -151,7 +201,7 @@ void ShowMainMenu(Graphics_& graphic, EventPlayer& Event_player, GameResources &
 
 void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map_,
                  Sprite& player,Bullet &check_fire, std::vector<MonsterObject *>& p_Monster_list,
-                 EventPlayer& Event_player, PlayerIndex& player_index,Explosion &exp, bool& quit) {
+                 EventPlayer& Event_player, PlayerIndex& player_index,Explosion &exp,ImpTimer &impTimer, bool& quit) {
 
     if (Mix_PlayingMusic() && resources.play_backsound == true ) {
                 Mix_HaltMusic();  // Dừng nhạc đang phát
@@ -169,6 +219,16 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
      {
         // Chạy game chính
         SDL_RenderCopy(graphic.renderer, resources.BackGround, NULL, NULL);
+
+        impTimer.start();
+        if(Event_player.pause_game == true)
+        {
+            impTimer.pause();
+        }
+        else {
+                impTimer.unpause();
+                impTimer.update_real_time();
+        }
 
         player.DoPlayer(game_map_.game_map ,Event_player , player_index.health);
         if(Event_player.event_key_f == true) graphic.play(resources.player_fire);
@@ -193,10 +253,12 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
             MonsterObject* p_monster = p_Monster_list.at(i);
             if(p_monster != NULL)
             {
-                p_monster->ImpMoveType(graphic );
-                p_monster->DoMonster(game_map_.game_map );
-
-                p_monster->MakeBullet(game_map_.game_map ,graphic  , player.x_player , player.y_player ,player_index.health );
+                if(Event_player.pause_game == false)
+                {
+                    p_monster->ImpMoveType(graphic );
+                    p_monster->DoMonster(game_map_.game_map );
+                }
+                p_monster->MakeBullet(game_map_.game_map ,graphic  , player.x_player , player.y_player ,player_index.health,Event_player );
                 p_monster->show(game_map_.game_map , graphic);
 
             }
@@ -227,7 +289,8 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
 
         // SHOW GAME_TIME
         string time ="Time: ";
-        Uint32 time_val = SDL_GetTicks() / 1000;
+        Uint32 time_val = impTimer.real_time / 1000;
+        cerr<<time_val<<endl;
         Uint32 time_pos = 300 - time_val;
         if(time_pos <= 0)
         {
@@ -250,6 +313,8 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
         string money = money_ + to_string(MONEY);
         resources.Money = graphic.renderText(money , resources.font1 , color_White);
         graphic.renderTexture(resources.Money ,SCREEN_WIDTH*0.5 - 200 , 15 );
+        //SHOW NUT PAUSE
+        graphic.renderTexture(resources.Pause , SCREEN_WIDTH - 50 , 10);
     }
     if(Event_player.quit_game == true && quit == false)
     {
@@ -280,11 +345,19 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
         {
             quit = true;
         }
+
+        if(Event_player.Replay_game == true)
+        {
+            ResetGame(graphic , player_index ,game_map_, player ,check_fire , p_Monster_list , exp , Event_player , impTimer);
+        }
     }
 }
 
+void CleanUp(GameResources& resources ,Sprite &player ,GameMap &game_map_ , Explosion &exp) {
 
-void CleanUp(GameResources& resources ) {
+    player.free();
+    exp.free();
+    game_map_.tile_mat[20].free();
 
     TTF_CloseFont(resources.font1);
     TTF_CloseFont(resources.font2);

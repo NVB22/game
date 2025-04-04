@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1743697782 source:d:\ltnc\game\main.cpp
+1743753972 source:d:\ltnc\game\main.cpp
 	"InItGame.h"
 
 1743407534 d:\ltnc\game\graphics.h
@@ -24,7 +24,7 @@
 	"baseObject.h"
 	"defs.h"
 
-1743696321 d:\ltnc\game\playerobject.h
+1743754825 d:\ltnc\game\playerobject.h
 	<iostream>
 	<stdio.h>
 	<cstdio>
@@ -39,7 +39,7 @@
 	"PlayerIndex.h"
 	"HandelInPut.h"
 
-1743691729 d:\ltnc\game\bulletobject.h
+1743756166 d:\ltnc\game\bulletobject.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -52,12 +52,12 @@
 	"MonsterObject.h"
 	"Explosion.h"
 
-1742292432 d:\ltnc\game\handelinput.h
+1743754825 d:\ltnc\game\handelinput.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
 
-1743691729 d:\ltnc\game\monsterobject.h
+1743741240 d:\ltnc\game\monsterobject.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -66,8 +66,9 @@
 	"graphics.h"
 	"BulletMonster.h"
 	"playerObject.h"
+	"HandelInPut.h"
 
-1743416806 d:\ltnc\game\bulletmonster.h
+1743755103 d:\ltnc\game\bulletmonster.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -78,6 +79,7 @@
 	"MonsterObject.h"
 	"playerObject.h"
 	"baseObject.h"
+	"HandelInPut.h"
 
 1743697893 d:\ltnc\game\playerindex.h
 	<iostream>
@@ -97,7 +99,7 @@
 	"graphics.h"
 	"baseObject.h"
 
-1743697309 d:\ltnc\game\initgame.h
+1743756356 d:\ltnc\game\initgame.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -115,5 +117,14 @@
 	"Explosion.h"
 	<SDL_ttf.h>
 	<SDL_mixer.h>
-	"InItGame.h"
+	"ImpTimer.h"
+
+1743750701 d:\ltnc\game\imptimer.h
+	<iostream>
+	<vector>
+	<SDL.h>
+	<SDL_image.h>
+	"defs.h"
+	"graphics.h"
+	"baseObject.h"
 

@@ -19,21 +19,21 @@ struct Sprite : public Base
 {
     SDL_Texture* texture;
     std::vector <SDL_Rect> clip;
-    int currentFrame =0;
+    int currentFrame ;
 
-    bool finishing = false;
+    bool finishing ;
 
-    int x_pos=0 , y_pos=0 ; // vị trí hiện tại của nhân vật, quái so với vị trí map ban đầu
+    int x_pos , y_pos ; // vị trí hiện tại của nhân vật, quái so với vị trí map ban đầu
     // vị trí các ô nhân vật đứng
     int tile_x1 ,tile_y1;
     int tile_x2 , tile_y2;
 
-    bool bullet_hit = false;
+    bool bullet_hit ;
 
-    int on_ground = 0;
-    int speed = INITIAL_SPEED;
+    int on_ground ;
+    int speed ;
 
-    double x_val= 0 , y_val = 0 ;
+    double x_val, y_val ;
     int x_player , y_player ; //vị trí thực của nhân vật trên cửa sổ game
 
     bool LoadImg_player(const char * file, SDL_Renderer* renderer)
@@ -50,9 +50,21 @@ struct Sprite : public Base
         }
         return res;
     }
+
+    void reset()
+    {
+        currentFrame = 0;
+        finishing = false;
+        x_pos = 0; y_pos = 0;
+        bullet_hit = false;
+        on_ground = 0;
+        speed = INITIAL_SPEED;
+        x_val = 0 , y_val = 0;
+    }
     void init( SDL_Texture* _texture , int frame, const int _clip[][4])
     {
         texture= _texture;
+
         SDL_Rect _Clip;
         for(int i=0; i < frame ;i++)
         {

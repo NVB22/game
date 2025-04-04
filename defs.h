@@ -18,6 +18,7 @@ int HEALTH_PLAYER = 5;
 int MARK = 0;
 int MONEY = 0;
 
+const char* MAP_FILE = "map/map01.dat";
 const char* JUMP_RIGHT_SPRITE_FILE = "img/jum_right.png";
 const char* JUMP_LEFT_SPRITE_FILE = "img/jum_left.png";
 const char* RIGHT1_SPRITE_FILE = "img/player_right.png";

@@ -4,19 +4,20 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     Graphics_ graphic;
+    graphic.initSDL();
     GameResources resources;
     InitGame(graphic, resources);
 
     PlayerIndex player_index;
     player_index.InIt(graphic);
-    cerr<<player_index.highMark<<endl;
 
     GameMap game_map_;
-    game_map_.LoadMap("map/map01.dat");
+    game_map_.LoadMap(MAP_FILE);
     game_map_.LoadTiles(graphic.renderer);
 
     Sprite player;
-    player.init(resources.playerTexture, PLAYER1_FRAME, PLAY1_CLIP1);
+    player.LoadImg(RIGHT1_SPRITE_FILE , graphic.renderer);
+    player.init(player.p_object, PLAYER1_FRAME, PLAY1_CLIP1);
 
     Bullet check_fire;
 
@@ -28,6 +29,9 @@ int main(int argc, char *argv[]) {
 
     SDL_Event event;
     EventPlayer Event_player;
+
+    ImpTimer impTimer;
+    impTimer.init();
     bool quit = false;
 
     // Main game loop
@@ -41,27 +45,14 @@ int main(int argc, char *argv[]) {
         }
 
         // Xử lý game logic & vẽ màn hình
-        RunGameLoop(graphic, resources, game_map_, player ,check_fire , p_Monster_list, Event_player, player_index, exp, quit);
+        RunGameLoop(graphic, resources, game_map_, player ,check_fire , p_Monster_list, Event_player, player_index, exp,impTimer,quit);
 
         SDL_RenderPresent(graphic.renderer);
         SDL_Delay(50);
     }
 
-    CleanUp(resources );
-    for(int i=0 ; i< (int)p_Monster_list.size() ;i++)
-    {
-        MonsterObject* p_monster = p_Monster_list.at(i);
-        if(p_monster != NULL)
-        {
-            p_monster->free();
-            p_monster = NULL;
-        }
-    }
-    p_Monster_list.clear();
-    player.free();
-
-    exp.free();
-    game_map_.tile_mat[20].free();
+    CleanMonster(p_Monster_list);
+    CleanUp(resources , player , game_map_ , exp);
     graphic.quit();
     return 0;
 }

@@ -9,6 +9,7 @@
 #include "graphics.h"
 #include "BulletMonster.h"
 #include "playerObject.h"
+#include "HandelInPut.h"
 
 
 struct MonsterObject : public Base
@@ -272,7 +273,7 @@ struct MonsterObject : public Base
         }
     }
 
-    void MakeBullet(Map &map_ ,const Graphics_ &graphic  , const int &x_player , const int &y_player , int &health_player)
+    void MakeBullet(Map &map_ ,const Graphics_ &graphic  , const int &x_player , const int &y_player , int &health_player ,EventPlayer &Event_player)
     {
         for(int i=0 ; i < (int)p_bullet_list.size() ; i++)
         {
@@ -293,7 +294,7 @@ struct MonsterObject : public Base
                         if(Monster_status == MONSTER_MOVE_LEFT ) p_bullet->set_bullet_dir(DIR_LEFT);
                         else if(Monster_status == MONSTER_MOVE_RIGHT) p_bullet->set_bullet_dir(DIR_RIGHT);
                     }
-                    p_bullet->Move_Check(map_ , x_player , y_player, health_player);
+                    p_bullet->Move_Check(map_ , x_player , y_player, health_player,Event_player );
                     p_bullet->Render(graphic.renderer);
                 }
                 else

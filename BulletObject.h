@@ -24,14 +24,34 @@ struct Bullet : public Base
     bool bullet_move;
     int bullet_dir ;
 
+    void reset_bullet()
+    {
+        if((int)p_bullet_list.size() > 0)
+        {
+            for(int i=0 ;i< (int) p_bullet_list.size() ;i++)
+            {
+               Bullet *bullet = p_bullet_list[i];
+               if(bullet)
+               {
+                    bullet->bullet_out = true;
+                    bullet->free();
+                    p_bullet_list.erase(p_bullet_list.begin()+i);
+                    delete bullet ;
+                    bullet = NULL;
+               }
+            }
+        }
+        p_bullet_list.clear();
+    }
     void init_bullet()
     {
 
         x_val = 0 ; y_val = 0;
 
-        bullet_out = false ;
+        bullet_out = true ;
 
         bullet_dir = DIR_NONE;
+        reset_bullet();
     }
     void set_x_val (const int &x) {x_val = x;}
     void set_y_val (const int &y) {y_val = y;}
