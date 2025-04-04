@@ -118,6 +118,7 @@ void InitGame(Graphics_& graphic, GameResources& resources) {
     resources.playerTexture = graphic.loadTexture(RIGHT1_SPRITE_FILE);
 
     resources.Pause = graphic.loadTexture("img/pause.png");
+
     string win_ = "You Win!";
     resources.Win = graphic.renderText(win_ , resources.font3 , color_White);
     string lose_ = "You Lose!";
@@ -290,7 +291,6 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
         // SHOW GAME_TIME
         string time ="Time: ";
         Uint32 time_val = impTimer.real_time / 1000;
-        cerr<<time_val<<endl;
         Uint32 time_pos = 300 - time_val;
         if(time_pos <= 0)
         {
@@ -324,6 +324,9 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
             player_index.SaveHighScore("assets/highscore.txt", player_index.highMark);
         }
 
+        string replay = "Press SPACE to play again";
+        SDL_Texture* RePlay = graphic.renderText(replay , resources.font2 , color_White);
+
         std::string hs_text = "High Mark: " + std::to_string(player_index.highMark);
         SDL_Texture* hsTexture = graphic.renderText(hs_text, resources.font1, color_Red);
 
@@ -333,13 +336,15 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
         {
             graphic.renderTexture(resources.Lose , SCREEN_WIDTH*0.5 - 150 , SCREEN_HEIGHT*0.5);
             graphic.renderTexture(hsTexture,SCREEN_WIDTH*0.5 + 100 , SCREEN_HEIGHT*0.5 - 100);
-            graphic.renderTexture(hs_posTex , SCREEN_WIDTH*0.5 - 200 , SCREEN_HEIGHT*0.5 - 100);
+            graphic.renderTexture(hs_posTex , SCREEN_WIDTH*0.5 - 250 , SCREEN_HEIGHT*0.5 - 100);
+            graphic.renderTexture(RePlay ,SCREEN_WIDTH*0.5 - 350 , SCREEN_HEIGHT*0.5 + 200 );
         }
         else if(resources.win == true)
         {
             graphic.renderTexture(resources.Win ,SCREEN_WIDTH*0.5 - 150 , SCREEN_HEIGHT*0.5 );
             graphic.renderTexture(hsTexture,SCREEN_WIDTH*0.5 + 100 , SCREEN_HEIGHT*0.5 - 100);
-            graphic.renderTexture(hs_posTex , SCREEN_WIDTH*0.5 - 200 , SCREEN_HEIGHT*0.5 - 100);
+            graphic.renderTexture(hs_posTex , SCREEN_WIDTH*0.5 - 250 , SCREEN_HEIGHT*0.5 - 100);
+             graphic.renderTexture(RePlay ,SCREEN_WIDTH*0.5 - 350 , SCREEN_HEIGHT*0.5 + 200 );
         }
         else
         {
@@ -378,5 +383,7 @@ void CleanUp(GameResources& resources ,Sprite &player ,GameMap &game_map_ , Expl
     if(resources.Exit != NULL) {SDL_DestroyTexture(resources.Exit); resources.Exit = NULL;}
     if(resources.Lose != NULL) {SDL_DestroyTexture(resources.Lose) ; resources.Lose = NULL;}
     if(resources.Win != NULL) {SDL_DestroyTexture(resources.Win) ; resources.Win = NULL;}
+    if(resources.Pause != NULL) {SDL_DestroyTexture(resources.Pause) ; resources.Pause = NULL;}
+    //if(resources.RePlay != NULL) {SDL_DestroyTexture(resources.RePlay) ; resources.RePlay = NULL;}
 }
 #endif // INITGAME_H_INCLUDED

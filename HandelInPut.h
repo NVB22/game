@@ -79,7 +79,13 @@ struct EventPlayer
         }
         if(quit_game == true)
         {
-            if (event.type == SDL_KEYDOWN) Replay_game = true;
+            if (event.type == SDL_KEYDOWN)
+            {
+                if(event.key.keysym.sym == SDLK_SPACE)
+                {
+                    Replay_game = true;
+                }
+            }
         }
 
         //SU KIEN CHUOT

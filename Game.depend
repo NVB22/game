@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1743753972 source:d:\ltnc\game\main.cpp
+1743756735 source:d:\ltnc\game\main.cpp
 	"InItGame.h"
 
 1743407534 d:\ltnc\game\graphics.h
@@ -10,7 +10,7 @@
 	<SDL_mixer.h>
 	<string>
 
-1743698046 d:\ltnc\game\defs.h
+1743756489 d:\ltnc\game\defs.h
 
 1742134501 d:\ltnc\game\baseobject.h
 	"defs.h"
@@ -24,7 +24,7 @@
 	"baseObject.h"
 	"defs.h"
 
-1743754825 d:\ltnc\game\playerobject.h
+1743777365 d:\ltnc\game\playerobject.h
 	<iostream>
 	<stdio.h>
 	<cstdio>
@@ -52,7 +52,7 @@
 	"MonsterObject.h"
 	"Explosion.h"
 
-1743754825 d:\ltnc\game\handelinput.h
+1743777571 d:\ltnc\game\handelinput.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>
@@ -99,7 +99,7 @@
 	"graphics.h"
 	"baseObject.h"
 
-1743756356 d:\ltnc\game\initgame.h
+1743775199 d:\ltnc\game\initgame.h
 	<iostream>
 	<SDL.h>
 	<SDL_image.h>

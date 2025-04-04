@@ -183,6 +183,12 @@ void Check_player( Map &map_  , int &health_player)
     {
         if(x_val > 0) // nhân vật di chuyển sang phải
         {
+            if(map_.tile[tile_y1][tile_x2] == 10 || map_.tile[tile_y2][tile_x2] == 10)
+            {
+                map_.tile[tile_y1][tile_x2] = 0;
+                map_.tile[tile_y2][tile_x2] = 0;
+                if(health_player < 5) health_player++;
+            }
             if(map_.tile[tile_y1][tile_x2] == 4 || map_.tile[tile_y2][tile_x2] == 4)
             {
                 map_.tile[tile_y1][tile_x2] = 0;
@@ -197,6 +203,12 @@ void Check_player( Map &map_  , int &health_player)
         }
         else if(x_val < 0) // di chuyển sang trái
         {
+            if(map_.tile[tile_y1][tile_x1] == 10 || map_.tile[tile_y2][tile_x1] == 10)
+            {
+                map_.tile[tile_y1][tile_x1] = 0;
+                map_.tile[tile_y2][tile_x1] = 0;
+                if(health_player < 5) health_player++;
+            }
             if(map_.tile[tile_y1][tile_x1] == 4 || map_.tile[tile_y2][tile_x1] == 4)
             {
                 map_.tile[tile_y1][tile_x1] = 0;
@@ -223,6 +235,12 @@ void Check_player( Map &map_  , int &health_player)
     {
         if(y_val > 0)
         {
+            if(map_.tile[tile_y2][tile_x1] == 10 || map_.tile[tile_y2][tile_x2] == 10)
+            {
+                map_.tile[tile_y2][tile_x1] = 0;
+                map_.tile[tile_y2][tile_x2] = 0;
+                if(health_player < 5) health_player++;
+            }
             if(map_.tile[tile_y2][tile_x1] == 4 || map_.tile[tile_y2][tile_x2] == 4)
             {
                 map_.tile[tile_y2][tile_x1] = 0;
@@ -239,6 +257,12 @@ void Check_player( Map &map_  , int &health_player)
         }
         else if(y_val < 0)
         {
+            if(map_.tile[tile_y1][tile_x1] == 10 || map_.tile[tile_y1][tile_x2] == 10)
+            {
+                map_.tile[tile_y1][tile_x1] = 0;
+                map_.tile[tile_y1][tile_x2] = 0;
+                if(health_player < 5) health_player++;
+            }
             if(map_.tile[tile_y1][tile_x1] == 4 || map_.tile[tile_y1][tile_x2] == 4)
             {
                 map_.tile[tile_y1][tile_x1] = 0;
