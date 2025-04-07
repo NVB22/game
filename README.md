@@ -23,7 +23,7 @@ Tất cả trừ phần load map dịch chuyển map
 14.Menu
 15.Pause/Resume
 16.Status bar / lives (mạng/máu...)
-17. các điểm nổi bật khác: xử lý vụ nổ
+17. các điểm nổi bật khác: xử lý vụ nổ , ăn tiền , ăn máu hồi máu
 
 
 
