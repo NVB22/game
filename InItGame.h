@@ -50,9 +50,9 @@ std::vector<MonsterObject *> MakeMonsterList (Graphics_ &graphic )
         }
     }
 
-    MonsterObject* Monster_not_move = new MonsterObject[35];
+    MonsterObject* Monster_not_move = new MonsterObject[40];
 
-    for(int i=0 ; i<35 ;i++)
+    for(int i=0 ; i<40 ;i++)
     {
         MonsterObject* p_monster = (Monster_not_move + i);
         if(p_monster != NULL)
@@ -61,7 +61,7 @@ std::vector<MonsterObject *> MakeMonsterList (Graphics_ &graphic )
             p_monster->init(p_monster->p_object , MONSTER1_FRAME , MONSTER_CLIP1);
             p_monster->set_Monster_type(MONSTER_NOT_MOVE);
             p_monster->set_rect_monster(WIDTH_MONSTER1 , HEIGHT_MONSTER1);
-            p_monster->set_x_pos(630 + 710*i);
+            p_monster->set_x_pos(630 + 610*i);
             p_monster->set_y_pos(250);
 
             BulletMonster* p_bullet = new BulletMonster();
@@ -177,7 +177,7 @@ void ResetGame(Graphics_ &graphic,
 void ShowMainMenu(Graphics_& graphic, EventPlayer& Event_player, GameResources &resources) {
     // Nếu nhạc chưa phát, bắt đầu phát nhạc nền
     if (!resources.play_backsound) {
-        graphic.play(graphic.loadMusic("assets/backsound.mid"));
+        graphic.play(resources.backsound);
         resources.play_backsound = true;
     }
 
@@ -208,7 +208,7 @@ void RunGameLoop(Graphics_& graphic, GameResources& resources, GameMap& game_map
                 Mix_HaltMusic();  // Dừng nhạc đang phát
                 resources.play_backsound = false;
             }
-    graphic.play(resources.Action);
+    //graphic.play(resources.Action);
 
     SDL_SetRenderDrawColor(graphic.renderer, COLOR_KEY_R, COLOR_KEY_G, COLOR_KEY_B, RENDER_DRAW_COLOR);
     SDL_RenderClear(graphic.renderer);

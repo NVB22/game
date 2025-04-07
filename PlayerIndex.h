@@ -17,13 +17,13 @@ struct PlayerIndex : public Base
     int size_pos_list;
 
     int LoadHighScore(const std::string& filename) {
-    std::ifstream file(filename);
-    int highscore = 0;
-    if (file.is_open()) {
-        file >> highscore;
-        file.close();
-    }
-    return highscore;
+        std::ifstream file(filename);
+        int highscore = 0;
+        if (file.is_open()) {
+            file >> highscore;
+            file.close();
+        }
+        return highscore;
     }
 
     void SaveHighScore(const std::string& filename, int score) {

@@ -43,29 +43,10 @@ struct Bullet : public Base
         }
         p_bullet_list.clear();
     }
-    void init_bullet()
-    {
-
-        x_val = 0 ; y_val = 0;
-
-        bullet_out = true ;
-
-        bullet_dir = DIR_NONE;
-        reset_bullet();
-    }
-    void set_x_val (const int &x) {x_val = x;}
-    void set_y_val (const int &y) {y_val = y;}
-
-    void set_bullet_out (bool x) {bullet_move = x;}
-    void set_bullet_dir (const int x) {bullet_dir = x;}
-
-    void Move_Check (Map &map_ , std::vector <MonsterObject* > &p_monster_list , Explosion &exp)
+    void PlayerCheckToMap(int &bullet_dir , Map &map_)
     {
         int tile_x1 , tile_y1;
         int tile_x2 , tile_y2;
-
-
-        // MOVE AND CHECK TO MAP
         if(bullet_dir == DIR_RIGHT)
         {
             rect.x += x_val;
@@ -177,6 +158,27 @@ struct Bullet : public Base
              }
 
         }
+    }
+    void init_bullet()
+    {
+
+        x_val = 0 ; y_val = 0;
+
+        bullet_out = true ;
+
+        bullet_dir = DIR_NONE;
+        reset_bullet();
+    }
+    void set_x_val (const int &x) {x_val = x;}
+    void set_y_val (const int &y) {y_val = y;}
+
+    void set_bullet_out (bool x) {bullet_move = x;}
+    void set_bullet_dir (const int x) {bullet_dir = x;}
+
+    void Move_Check (Map &map_ , std::vector <MonsterObject* > &p_monster_list , Explosion &exp)
+    {
+        // MOVE AND CHECK TO MAP
+        PlayerCheckToMap(bullet_dir, map_);
 
         //MOVE ANHD CHECK TO MONSTER
         for(int i=0 ; i< (int)p_monster_list.size() ; i++)
@@ -202,7 +204,6 @@ struct Bullet : public Base
                     p_monster->free();
 
                     p_monster_list.erase(p_monster_list.begin() + i);
-
                      bullet_out = true;
                      MARK++;
 

@@ -13,6 +13,11 @@
 #include "baseObject.h"
 #include "HandelInPut.h"
 
+void MonsterCheckToMap(int &bullet_dir)
+{
+
+}
+
 struct BulletMonster: public Base
 {
     int x_val , y_val;
@@ -49,126 +54,129 @@ struct BulletMonster: public Base
     void set_bullet_dir (const int &x) {bullet_dir = x;}
     void set_target (const bool &x) {target = x ;}
 
-    void Move_Check(Map &map_  , const int &x_player , const int &y_player , int &health_player,EventPlayer &Event_player )
+    void MonsterCheckToMap(int &bullet_dir , Map &map_ ,const int &x_player ,const int &y_player)
     {
         int tile_x1 , tile_y1;
         int tile_x2 , tile_y2;
+        if(bullet_dir == DIR_LEFT)
+        {
+            rect.x -= x_val;
+
+            tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
+            tile_y1 = rect.y / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+
+            if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
+            {
+                if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
+                {
+                    bullet_out = true;
+
+                }
+                else if(rect.x <0 || rect.x > SCREEN_WIDTH - WIDTH_MONSTER2 || rect.x + 300 < x_start )
+                {
+                    bullet_out = true;
+                }
+            }
+
+        }
+        if(bullet_dir == DIR_RIGHT)
+        {
+            rect.x += (x_val) ;
+
+            tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
+            tile_y1 = rect.y / TILE_SIZE;
+            tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
+            tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+
+             if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
+             {
+                if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
+                {
+                    bullet_out = true;
+
+                }
+                else if(rect.x <0 || rect.x > SCREEN_WIDTH - WIDTH_MONSTER2 || rect.x - 300 > x_start)
+                {
+                    bullet_out = true;
+                }
+             }
+
+        }
+        if(bullet_dir == DIR_NONE)
+        {
+            if(target == false)
+            {
+                set_x_target(x_player + 10);
+                set_y_target(y_player + 10);
+                set_target(true);
+            }
+
+            int u1 = x_target - x_start;
+            int u2 = y_target - y_start;
+
+            if(u1 != 0 && u2 != 0 )
+            {
+                if(x_target - rect.x > 0)
+                {
+                    rect.x += (x_val);
+                    if(rect.x > x_target) rect.x = x_target;
+                    rect.y = (1.0*(rect.x - x_start)/u1)*u2 + y_start;
+
+                    tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
+                    tile_y1 = rect.y / TILE_SIZE;
+                    tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
+                    tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+
+                    if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
+                    {
+                         if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
+                        {
+                            bullet_out = true;
+                            set_target(false);
+                        }
+                    }
+
+
+                }
+                else if(x_target - rect.x < 0)
+                {
+                    rect.x -= (x_val + INITIAL_SPEED);
+
+                    if(rect.x < x_target) rect.x = x_target;
+                    rect.y = (1.0*(rect.x - x_start)/u1)*u2 + y_start;
+
+                    tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
+                    tile_y1 = rect.y / TILE_SIZE;
+                    tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
+                    tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
+
+                    if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
+                    {
+                        if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
+                        {
+                            bullet_out = true;
+                            set_target(false);
+                        }
+                    }
+
+                }
+            }
+            if(rect.x <0 || rect.x > SCREEN_WIDTH - WIDTH_MONSTER2 || rect.x == x_target  )
+            {
+                bullet_out = true;
+                set_target(false);
+            }
+
+        }
+    }
+    void Move_Check(Map &map_  , const int &x_player , const int &y_player , int &health_player,EventPlayer &Event_player )
+    {
         if(Event_player.pause_game == false)
         {
             // CHECK TO MAP
-            if(bullet_dir == DIR_LEFT)
-            {
-                rect.x -= x_val;
-
-                tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
-                tile_y1 = rect.y / TILE_SIZE;
-                tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-                tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
-
-                if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
-                {
-                    if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
-                    {
-                        bullet_out = true;
-
-                    }
-                    else if(rect.x <0 || rect.x > SCREEN_WIDTH - WIDTH_MONSTER2 || rect.x + 300 < x_start )
-                    {
-                        bullet_out = true;
-                    }
-                }
-
-            }
-            if(bullet_dir == DIR_RIGHT)
-            {
-                rect.x += (x_val) ;
-
-                tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
-                tile_y1 = rect.y / TILE_SIZE;
-                tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-                tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
-
-                 if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
-                 {
-                    if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
-                    {
-                        bullet_out = true;
-
-                    }
-                    else if(rect.x <0 || rect.x > SCREEN_WIDTH - WIDTH_MONSTER2 || rect.x - 300 > x_start)
-                    {
-                        bullet_out = true;
-                    }
-                 }
-
-            }
-            if(bullet_dir == DIR_NONE)
-            {
-                if(target == false)
-                {
-                    set_x_target(x_player + 10);
-                    set_y_target(y_player + 10);
-                    set_target(true);
-                }
-
-                int u1 = x_target - x_start;
-                int u2 = y_target - y_start;
-
-                if(u1 != 0 && u2 != 0 )
-                {
-                    if(x_target - rect.x > 0)
-                    {
-                        rect.x += (x_val);
-                        if(rect.x > x_target) rect.x = x_target;
-                        rect.y = (1.0*(rect.x - x_start)/u1)*u2 + y_start;
-
-                        tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
-                        tile_y1 = rect.y / TILE_SIZE;
-                        tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-                        tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
-
-                        if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
-                        {
-                             if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
-                            {
-                                bullet_out = true;
-                                set_target(false);
-                            }
-                        }
-
-
-                    }
-                    else if(x_target - rect.x < 0)
-                    {
-                        rect.x -= (x_val + INITIAL_SPEED);
-
-                        if(rect.x < x_target) rect.x = x_target;
-                        rect.y = (1.0*(rect.x - x_start)/u1)*u2 + y_start;
-
-                        tile_x1 = (rect.x + map_.start_x) / TILE_SIZE;
-                        tile_y1 = rect.y / TILE_SIZE;
-                        tile_x2 = (rect.x + map_.start_x + rect.w*2/3 ) / TILE_SIZE;
-                        tile_y2 = (rect.y + rect.h*2/3 ) / TILE_SIZE;
-
-                        if(tile_x1 >= 0 && tile_x2 < MAX_MAP_X && tile_y1 >= 0 && tile_y2 < MAX_MAP_Y)
-                        {
-                            if( map_.tile[tile_y1][tile_x1] != 0 || map_.tile[tile_y1][tile_x2] != 0 || map_.tile[tile_y2][tile_x1] !=0 || map_.tile[tile_y2][tile_x2] !=0 )
-                            {
-                                bullet_out = true;
-                                set_target(false);
-                            }
-                        }
-
-                    }
-                }
-                if(rect.x <0 || rect.x > SCREEN_WIDTH - WIDTH_MONSTER2 || rect.x == x_target  )
-                {
-                    bullet_out = true;
-                    set_target(false);
-                }
-
-            }
-
+            MonsterCheckToMap(bullet_dir , map_ , x_player , y_player);
             //CHECK TO PLAYER
 
             int x1 = x_player;

@@ -14,7 +14,7 @@
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
 
-int HEALTH_PLAYER = 5;
+const int HEALTH_PLAYER = 5;
 int MARK = 0;
 int MONEY = 0;
 
@@ -132,7 +132,7 @@ const int DIR_UP_RIGHT = 32;
 const int DIR_DOWN_RIGHT = 33;
 const int DIR_UP_LEFT = 34;
 const int DIR_DOWN_LEFT =35;
-const int SPEED_BULLET1 = 20;
+const int SPEED_BULLET1 = 30;
 const int SPEED_BULLET2 = 10;
 //#define BACKGROUND_IMG "img\\forest.jpg"
 

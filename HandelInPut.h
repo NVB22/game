@@ -31,7 +31,7 @@ struct EventPlayer
     void HandelInputAction(SDL_Event &event, Graphics_ &graphic , Map &map_ )
     {
         //SU KIEN BAN PHIM
-        if(pause_game == false && start_game == true)
+        if(pause_game == false&& start_game == true)
         {
             if(currentKeyStates[SDL_SCANCODE_UP])
             {

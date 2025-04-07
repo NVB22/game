@@ -2,74 +2,159 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="BulletMonster.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+	<File name="defs.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="677" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="gameMap.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2878" topLine="86" />
-		</Cursor>
-	</File>
-	<File name="InItGame.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="10093" topLine="289" />
+			<Cursor1 position="3374" topLine="111" />
 		</Cursor>
 	</File>
 	<File name="BulletObject.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1303" topLine="99" />
+			<Cursor1 position="6390" topLine="159" />
 		</Cursor>
+		<Folding>
+			<Collapse line="27" />
+		</Folding>
 	</File>
-	<File name="playerObject.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="Explosion.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7559" topLine="235" />
+			<Cursor1 position="243" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="27" />
+			<Collapse line="40" />
+			<Collapse line="45" />
+			<Collapse line="50" />
+			<Collapse line="58" />
+		</Folding>
+	</File>
+	<File name="gameMap.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1891" topLine="6" />
+		</Cursor>
+		<Folding>
+			<Collapse line="28" />
+			<Collapse line="66" />
+			<Collapse line="85" />
+		</Folding>
+	</File>
+	<File name="ImpTimer.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1048" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="22" />
+			<Collapse line="33" />
+			<Collapse line="43" />
+			<Collapse line="52" />
+			<Collapse line="61" />
+			<Collapse line="65" />
+		</Folding>
+	</File>
+	<File name="graphics.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2155" topLine="12" />
+		</Cursor>
+		<Folding>
+			<Collapse line="15" />
+			<Collapse line="20" />
+			<Collapse line="50" />
+			<Collapse line="55" />
+			<Collapse line="66" />
+			<Collapse line="77" />
+			<Collapse line="89" />
+			<Collapse line="111" />
+			<Collapse line="121" />
+			<Collapse line="132" />
+			<Collapse line="141" />
+			<Collapse line="148" />
+		</Folding>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="777" topLine="21" />
 		</Cursor>
 	</File>
 	<File name="PlayerIndex.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="503" topLine="0" />
+			<Cursor1 position="465" topLine="0" />
 		</Cursor>
+		<Folding>
+			<Collapse line="18" />
+			<Collapse line="28" />
+			<Collapse line="37" />
+			<Collapse line="53" />
+			<Collapse line="64" />
+			<Collapse line="69" />
+		</Folding>
 	</File>
-	<File name="graphics.h" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="InItGame.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2155" topLine="42" />
+			<Cursor1 position="1262" topLine="7" />
 		</Cursor>
-	</File>
-	<File name="ImpTimer.h" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1048" topLine="13" />
-		</Cursor>
+		<Folding>
+			<Collapse line="25" />
+			<Collapse line="76" />
+			<Collapse line="105" />
+			<Collapse line="128" />
+			<Collapse line="141" />
+			<Collapse line="150" />
+			<Collapse line="176" />
+			<Collapse line="202" />
+			<Collapse line="360" />
+		</Folding>
 	</File>
 	<File name="baseObject.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1411" topLine="32" />
+			<Cursor1 position="1612" topLine="27" />
 		</Cursor>
+		<Folding>
+			<Collapse line="21" />
+			<Collapse line="49" />
+		</Folding>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+	<File name="playerObject.h" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="262" topLine="21" />
+			<Cursor1 position="7559" topLine="14" />
 		</Cursor>
-	</File>
-	<File name="HandelInPut.h" open="1" top="1" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2441" topLine="72" />
-		</Cursor>
-	</File>
-	<File name="defs.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="419" topLine="111" />
-		</Cursor>
-	</File>
-	<File name="Explosion.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="62" topLine="0" />
-		</Cursor>
+		<Folding>
+			<Collapse line="39" />
+			<Collapse line="54" />
+			<Collapse line="64" />
+			<Collapse line="80" />
+			<Collapse line="85" />
+		</Folding>
 	</File>
 	<File name="MonsterObject.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9255" topLine="6" />
+			<Cursor1 position="3691" topLine="37" />
 		</Cursor>
+		<Folding>
+			<Collapse line="47" />
+			<Collapse line="65" />
+			<Collapse line="71" />
+			<Collapse line="77" />
+			<Collapse line="100" />
+			<Collapse line="115" />
+			<Collapse line="120" />
+			<Collapse line="125" />
+			<Collapse line="243" />
+			<Collapse line="276" />
+		</Folding>
+	</File>
+	<File name="HandelInPut.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2857" topLine="115" />
+		</Cursor>
+		<Folding>
+			<Collapse line="137" />
+		</Folding>
+	</File>
+	<File name="BulletMonster.h" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6096" topLine="155" />
+		</Cursor>
+		<Folding>
+			<Collapse line="34" />
+		</Folding>
 	</File>
 </CodeBlocks_layout_file>
